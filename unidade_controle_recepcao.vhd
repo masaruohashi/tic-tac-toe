@@ -8,6 +8,7 @@ entity unidade_controle_recepcao is
         prepara  : in   std_logic;
         fim      : in   std_logic;
         reseta   : in   std_logic;
+        pronto   : out  std_logic;
         saida    : out  std_logic_vector(5 downto 0));  -- limpa|carrega|zera|desloca|conta|pronto
 end unidade_controle_recepcao;
 
@@ -47,6 +48,10 @@ begin
         end case;
     end if;
     end process;
+
+    with estado select
+      pronto <= '1' when final,
+                '0' when others;
 
     process (estado)
     begin
