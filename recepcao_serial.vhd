@@ -65,7 +65,7 @@ architecture estrutural of recepcao_serial is
 begin
 
     circuito : circuito_recepcao port map (entrada, reset, clock, sinal_tick, sinal_dados_ascii, dep_estados, sinal_pronto, sinal_paridade_ok, dep_habilita_recepcao);
-    gera_tick: gerador_tick generic map (M => 2) port map(clock, reset, sinal_tick);
+    gera_tick: gerador_tick generic map (M => 28409) port map(clock, reset, sinal_tick);
     interface: interface_recepcao port map (clock, reset, sinal_pronto, sinal_paridade_ok, recebe_dado, sinal_dados_ascii, tem_dado_rec, dado_rec);
 
     dep_paridade_ok <= sinal_paridade_ok;

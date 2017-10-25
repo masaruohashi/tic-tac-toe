@@ -59,7 +59,7 @@ begin
 
   uc_interface_transmissao: unidade_controle_interface_transmissao port map (clock, reset, transmite_dado, sinal_pronto, sinal_transmissao_andamento);
   transmissao: circuito_transmissao port map(dados_trans, sinal_tick, sinal_transmissao_andamento, reset, clock, saida, sinal_pronto);
-  gera_tick: gerador_tick generic map (M => 16) port map(clock, reset, sinal_tick);
+  gera_tick: gerador_tick generic map (M => 454545) port map(clock, reset, sinal_tick);
 
   depuracao_tick <= sinal_tick;
   transmissao_andamento <= sinal_transmissao_andamento;
