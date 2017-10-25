@@ -19,7 +19,7 @@ entity uart is
     fim_transmissao: out std_logic;
     dep_tick_rx: out std_logic;
     dep_tick_tx: out std_logic;
-    dep_estado_recepcao: out std_logic_vector(4 downto 0);
+    dep_estado_recepcao: out std_logic_vector(5 downto 0);
     dep_habilita_recepcao: out std_logic
   );
 end uart;
@@ -49,7 +49,7 @@ architecture estrutural of uart is
       tem_dado_rec: out std_logic;
       dep_paridade_ok: out std_logic;
       dep_tick_rx: out std_logic;
-      dep_estados: out std_logic_vector(4 downto 0);
+      dep_estados: out std_logic_vector(5 downto 0);
       dep_habilita_recepcao: out std_logic
     );
   end component;

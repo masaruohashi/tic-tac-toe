@@ -17,7 +17,7 @@ entity memoria_caractere is
 end memoria_caractere;
 
 architecture estrutural of memoria_caractere is
-   type memoria is array (58 downto 0) of std_logic_vector(6 downto 0);
+   type memoria is array (59 downto 0) of std_logic_vector(6 downto 0);
    constant c_enter: std_logic_vector(6 downto 0) := "0001101";
    constant c_espaco: std_logic_vector(6 downto 0) := "0100000";
    constant c_hifen: std_logic_vector(6 downto 0) := "0101101";

@@ -13,7 +13,7 @@ entity recepcao_serial is
     tem_dado_rec: out std_logic;
     dep_paridade_ok: out std_logic;
     dep_tick_rx: out std_logic;
-    dep_estados: out std_logic_vector(4 downto 0);
+    dep_estados: out std_logic_vector(5 downto 0);
     dep_habilita_recepcao: out std_logic
   );
 end recepcao_serial;
@@ -27,7 +27,7 @@ architecture estrutural of recepcao_serial is
       clock         : in  std_logic;
       tick          : in  std_logic;
       dados_ascii   : out std_logic_vector(11 downto 0);
-      saidas_estado : out std_logic_vector(4 downto 0);
+      saidas_estado : out std_logic_vector(5 downto 0);
       pronto        : out std_logic;
       paridade_ok   : out std_logic;
       dep_habilita_recepcao : out std_logic

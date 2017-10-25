@@ -8,6 +8,7 @@ entity fluxo_dados_recepcao is
     dado_serial   : in  std_logic;
     desloca       : in  std_logic;
     zera          : in  std_logic;
+    limpa         : in  std_logic;
     carrega       : in  std_logic;
     final         : in  std_logic;
     conta         : in  std_logic;
@@ -64,14 +65,16 @@ architecture exemplo of fluxo_dados_recepcao is
 signal s_fim: std_logic;
 signal s_saida_ascii: std_logic_vector(11 downto 0);
 signal s_contagem: std_logic_vector(2 downto 0);
+signal s_limpa: std_logic;
 
 begin
 
   REGI_1    : registrador_deslocamento_recepcao port map (clock, enable, desloca, dado_serial, s_saida_ascii);
-  CONT16_1  : contador_16_recepcao port map (clock, enable, zera, conta, open, s_fim);
+  CONT16_1  : contador_16_recepcao port map (clock, enable, s_limpa, conta, open, s_fim);
   ERRPAR_1  : detector_erro_paridade port map (s_saida_ascii, clock, final, zera, paridade_ok);
 
   fim <= s_fim;
+  s_limpa <= limpa or zera;
   s_contagemdep <= s_contagem;
   dados_ascii <= s_saida_ascii;
 end exemplo;

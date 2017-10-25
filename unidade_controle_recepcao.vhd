@@ -8,7 +8,7 @@ entity unidade_controle_recepcao is
         prepara  : in   std_logic;
         fim      : in   std_logic;
         reseta   : in   std_logic;
-        saida    : out  std_logic_vector(4 downto 0));  -- carrega|zera|desloca|conta|pronto
+        saida    : out  std_logic_vector(5 downto 0));  -- limpa|carrega|zera|desloca|conta|pronto
 end unidade_controle_recepcao;
 
 architecture exemplo of unidade_controle_recepcao is
@@ -50,15 +50,15 @@ begin
 
     process (estado)
     begin
-        case estado is  -- carrega|zera|desloca|conta|pronto
+        case estado is  -- limpa|carrega|zera|desloca|conta|pronto
             when inicial =>
-                saida <= "10001";
+                saida <= "010001";
             when preparacao =>
-                saida <= "01000";
+                saida <= "001000";
             when recebimento =>
-                saida <= "00110";
+                saida <= "000110";
             when final =>
-                saida <= "00001";
+                saida <= "000001";
         end case;
    end process;
 end exemplo;
