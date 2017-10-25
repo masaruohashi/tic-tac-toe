@@ -29,7 +29,7 @@ begin
     end if;
   end if;
 
-  if IQ = 59 then
+  if IQ = 60 then
     fim <= '1';
   else
     fim <= '0';
