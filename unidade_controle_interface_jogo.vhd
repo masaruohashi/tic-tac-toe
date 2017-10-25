@@ -15,7 +15,8 @@ entity unidade_controle_interface_jogo is
     atualiza_caractere: out std_logic;
     recebe_dado: out std_logic;
     limpa_contador: out std_logic;
-    insere_dado: out std_logic
+    insere_dado: out std_logic;
+    dep_estados: out std_logic_vector(2 downto 0)
   );
 end unidade_controle_interface_jogo;
 
@@ -88,4 +89,22 @@ begin
     with estado select
       atualiza_caractere <= '1' when prepara,
                             '0' when others;
+
+    process (estado)
+    begin
+      case estado is
+        when inicial =>
+          dep_estados <= "000";
+        when prepara =>
+          dep_estados <= "001";
+        when imprime =>
+          dep_estados <= "010";
+        when recebe =>
+          dep_estados <= "011";
+        when guarda =>
+          dep_estados <= "100";
+        when others =>
+          null;
+      end case;
+    end process;
 end comportamental;
