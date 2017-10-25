@@ -15,7 +15,7 @@ entity unidade_controle_interface_recepcao is
 end unidade_controle_interface_recepcao;
 
 architecture exemplo of unidade_controle_interface_recepcao is
-type tipo_estado is (inicial, prepara, recebe, final);
+type tipo_estado is (inicial, prepara, recebe, final, aguarda);
 signal estado   : tipo_estado;
 
 begin
@@ -44,11 +44,14 @@ begin
         when recebe =>        -- Habilita o registrador no fluxo de dados
           estado <= final;
 
-        when final =>        -- Habilita saida para os displays
+        when final =>
+          estado <= aguarda;
+
+        when aguarda =>        -- Habilita saida para os displays
           if recebe_dado = '0' then
             estado <= inicial;
           else
-            estado <= final;
+            estado <= aguarda;
           end if;
 
         when others =>       -- Default
