@@ -10,7 +10,8 @@ entity jogo_velha is
     entrada_serial: in std_logic;
     start: in std_logic;
     saida_serial: out std_logic;
-    dep_estados: out std_logic_vector(2 downto 0)
+    dep_estados: out std_logic_vector(2 downto 0);
+    dep_fim_recepcao: out std_logic
   );
 end jogo_velha;
 
@@ -58,5 +59,7 @@ begin
 
     unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, dep_estados);
     fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, open, open);
+
+    dep_fim_recepcao <= s_fim_recepcao;
 
 end estrutural;
