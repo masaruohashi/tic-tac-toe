@@ -23,12 +23,18 @@ architecture estrutural of jogo_velha is
       start: in std_logic;
       fim_impressao: in std_logic;
       fim_recepcao: in std_logic;
+      fim_validacao_jogada: in std_logic;
+      fim_validacao_tabuleiro: in std_logic;
+      jogada_ok: in std_logic;
+      fim_jogo: in std_logic;
       uart_livre: in std_logic;
       imprime_tabuleiro: out std_logic;
       atualiza_caractere: out std_logic;
       recebe_dado: out std_logic;
       limpa_contador: out std_logic;
       insere_dado: out std_logic;
+      verifica_jogada: out std_logic;
+      verifica_tabuleiro: out std_logic;
       dep_estados: out std_logic_vector(2 downto 0)
     );
   end component;
@@ -57,7 +63,7 @@ architecture estrutural of jogo_velha is
   signal s_fim_recepcao, s_recebe_dado, s_insere_dado: std_logic;
 begin
 
-    unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, dep_estados);
+    unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, '1', '1', '1', '0', s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, open, open, dep_estados);
     fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, open, open);
 
     dep_fim_recepcao <= s_fim_recepcao;

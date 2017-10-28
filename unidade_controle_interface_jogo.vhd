@@ -4,24 +4,30 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity unidade_controle_interface_jogo is
-   port(
+  port(
     clock: in std_logic;
     reset: in std_logic;
     start: in std_logic;
     fim_impressao: in std_logic;
     fim_recepcao: in std_logic;
+    fim_validacao_jogada: in std_logic;
+    fim_validacao_tabuleiro: in std_logic;
+    jogada_ok: in std_logic;
+    fim_jogo: in std_logic;
     uart_livre: in std_logic;
     imprime_tabuleiro: out std_logic;
     atualiza_caractere: out std_logic;
     recebe_dado: out std_logic;
     limpa_contador: out std_logic;
     insere_dado: out std_logic;
+    verifica_jogada: out std_logic;
+    verifica_tabuleiro: out std_logic;
     dep_estados: out std_logic_vector(2 downto 0)
   );
 end unidade_controle_interface_jogo;
 
 architecture comportamental of unidade_controle_interface_jogo is
-type tipo_estado is (inicial, prepara, imprime, recebe, guarda);
+type tipo_estado is (inicial, prepara, imprime, recebe, valida_jogada, guarda, valida_tabuleiro, final);
 signal estado   : tipo_estado;
 
 begin
@@ -61,8 +67,29 @@ begin
             estado <= recebe;
           end if;
 
+        when valida_jogada =>
+          if fim_validacao_jogada = '0' then
+            estado <= valida_jogada;
+          elsif jogada_ok = '0' then
+            estado <= recebe;
+          else
+            estado <= guarda;
+          end if;
+
         when guarda =>        -- Guarda o dado no tabuleiro
           estado <= prepara;
+
+        when valida_tabuleiro =>
+          if fim_validacao_tabuleiro = '0' then
+            estado <= valida_tabuleiro;
+          elsif fim_jogo = '1' then
+            estado <= final;
+          else
+            estado <= imprime;
+          end if;
+
+        when final =>
+          estado <= final;
 
         when others =>       -- Default
           estado <= inicial;
@@ -88,6 +115,14 @@ begin
 
     with estado select
       atualiza_caractere <= '1' when prepara,
+                            '0' when others;
+
+    with estado select
+      verifica_jogada <= '1' when valida_jogada,
+                         '0' when others;
+
+    with estado select
+      verifica_tabuleiro <= '1' when valida_tabuleiro,
                             '0' when others;
 
     process (estado)
