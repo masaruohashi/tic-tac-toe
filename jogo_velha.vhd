@@ -41,30 +41,32 @@ architecture estrutural of jogo_velha is
 
   component fluxo_dados_interface_jogo is
     port(
-    clock: in std_logic;
-    reset: in std_logic;
-    limpa: in std_logic;
-    conta: in std_logic;
-    leitura: in std_logic;
-    escrita: in std_logic;
-    recebe_dado: in std_logic;
-    transmite_dado: in std_logic;
-    entrada_serial: in std_logic;
-    saida_serial: out std_logic;
-    fim_tabuleiro: out std_logic;
-    fim_recepcao: out std_logic;
-    uart_livre: out std_logic;
-    dep_endereco_leitura: out std_logic_vector(5 downto 0);
-    dep_endereco_escrita: out std_logic_vector(5 downto 0)
+      clock                : in  std_logic;
+      reset                : in  std_logic;
+      limpa                : in  std_logic;
+      conta                : in  std_logic;
+      leitura              : in  std_logic;
+      escrita              : in  std_logic;
+      recebe_dado          : in  std_logic;
+      transmite_dado       : in  std_logic;
+      entrada_serial       : in  std_logic;
+      saida_serial         : out std_logic;
+      fim_tabuleiro        : out std_logic;
+      fim_recepcao         : out std_logic;
+      uart_livre           : out std_logic;
+      caractere_valido     : out std_logic;
+      posicao_valida       : out std_logic;
+      dep_endereco_leitura : out std_logic_vector(5 downto 0);
+      dep_endereco_escrita : out std_logic_vector(5 downto 0)
     );
   end component;
 
   signal s_fim_impressao, s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_limpa_contador: std_logic;
-  signal s_fim_recepcao, s_recebe_dado, s_insere_dado: std_logic;
+  signal s_fim_recepcao, s_recebe_dado, s_insere_dado, s_caractere_valido, s_posicao_valida: std_logic;
 begin
 
     unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, '1', '1', '1', '0', s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, open, open, dep_estados);
-    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, open, open);
+    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_caractere_valido, s_posicao_valida, open, open);
 
     dep_fim_recepcao <= s_fim_recepcao;
 
