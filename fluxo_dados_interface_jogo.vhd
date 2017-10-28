@@ -75,15 +75,27 @@ architecture exemplo of fluxo_dados_interface_jogo is
     );
   end component;
 
+  component registrador_jogada is
+    port(
+      clock: in std_logic;
+      reset: in std_logic;
+      guarda_jogada: in std_logic;
+      entrada: in std_logic_vector(6 downto 0);
+      dados: out std_logic_vector(8 downto 0)
+    );
+  end component;
+
 signal s_limpa: std_logic;
 signal s_endereco_leitura, s_endereco_escrita: std_logic_vector(5 downto 0);
 signal s_entrada_caractere, s_saida_caractere: std_logic_vector(6 downto 0);
+signal s_jogadas: std_logic_vector(8 downto 0);
 
 begin
   contador: contador_tabuleiro port map (clock, s_limpa, conta, s_endereco_leitura, fim_tabuleiro);
   memoria: memoria_caractere port map (clock, reset, leitura, escrita, (others => '0'), s_endereco_leitura, s_endereco_escrita, s_saida_caractere);
   mapeador: mapeador_caractere port map (s_entrada_caractere, s_endereco_escrita);
   uart_1: uart port map (clock, reset, entrada_serial, recebe_dado, transmite_dado, s_saida_caractere, saida_serial, s_entrada_caractere, fim_recepcao, open, uart_livre, open, open, open, open);
+  jogadas: registrador_jogada port map (clock, reset, escrita, s_entrada_caractere, s_jogadas);
 
   s_limpa <= reset or limpa;
   dep_endereco_leitura <= s_endereco_leitura;

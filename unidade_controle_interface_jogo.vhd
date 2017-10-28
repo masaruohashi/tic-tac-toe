@@ -136,8 +136,14 @@ begin
           dep_estados <= "010";
         when recebe =>
           dep_estados <= "011";
-        when guarda =>
+        when valida_jogada =>
           dep_estados <= "100";
+        when guarda =>
+          dep_estados <= "101";
+        when valida_tabuleiro =>
+          dep_estados <= "110";
+        when final =>
+          dep_estados <= "111";
         when others =>
           null;
       end case;
