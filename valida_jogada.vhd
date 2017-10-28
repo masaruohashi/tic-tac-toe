@@ -1,20 +1,18 @@
--- VHDL do Fluxo de Dados
-
+-- VHDL do modulo verificador de jogada
 library ieee;
 use ieee.std_logic_1164.all;
 
 entity valida_jogada is
   port(
-    clock                 : in  std_logic;
-    verifica_jogada       : in  std_logic;
-    caractere             : in  std_logic_vector(6 downto 0);
-    jogadas               : in  std_logic_vector(8 downto 0);
-    posicao               : in  std_logic;
-    jogada_ok             : out std_logic
+    clock           : in  std_logic;
+    verifica_jogada : in  std_logic;
+    caractere       : in  std_logic_vector(6 downto 0);
+    jogadas         : in  std_logic_vector(8 downto 0);
+    jogada_ok       : out std_logic
   );
 end valida_jogada;
 
-architecture exemplo of fluxo_dados_interface_jogo is
+architecture estrutural of valida_jogada is
 
   component valida_caractere is
     port(
@@ -38,8 +36,8 @@ signal s_caractere_valido, s_posicao_valida : std_logic;
 
 begin
   valida_char : valida_caractere  port map (verifica_jogada, caractere, s_caractere_valido);
-  valida_pos  : valida_posicao    port map (clock, verifica_jogada, posicao, caractere, s_posicao_valida);
+  valida_pos  : valida_posicao    port map (clock, verifica_jogada, jogadas, caractere, s_posicao_valida);
 
   jogada_ok <= s_caractere_valido AND s_posicao_valida;
 
-end exemplo;
+end estrutural;

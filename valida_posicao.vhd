@@ -25,7 +25,7 @@ architecture estrutural of valida_posicao is
     );
   end component;
 
-  signal s_caractere_valido, s_posicao_valida : std_logic;
+  signal s_caractere_valido, s_posicao_valida, s_saida : std_logic;
 
   begin
     mux1  : mux port map (clock, verifica_jogada, posicao, caractere, s_saida);

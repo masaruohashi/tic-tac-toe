@@ -1,5 +1,4 @@
--- VHDL do Sistema Digital
-
+-- VHDL de um mux que verifica se uma jogada ja foi realizada anteriormente
 library ieee;
 use ieee.std_logic_1164.all;
 

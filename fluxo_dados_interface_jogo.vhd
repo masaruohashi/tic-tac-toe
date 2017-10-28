@@ -83,7 +83,6 @@ architecture exemplo of fluxo_dados_interface_jogo is
       verifica_jogada : in  std_logic;
       caractere       : in  std_logic_vector(6 downto 0);
       jogadas         : in  std_logic_vector(8 downto 0);
-      posicao         : in  std_logic;
       jogada_ok       : out std_logic
     );
   end component;
