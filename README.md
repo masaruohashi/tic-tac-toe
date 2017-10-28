@@ -2,7 +2,7 @@
 
 This repository contains the files for the final project of the digital laboratory.
 
-The final project is a simple tic-tac-toe game, that uses all the concepts studied during this four-month period.
+The final project is a simple tic-tac-toe game, that uses all of the concepts studied during this four-month period.
 
 ## Getting Started
 
