@@ -62,9 +62,9 @@ begin
 
         when recebe =>        -- Espera o dado ser recebido
           if fim_recepcao = '1' then
-            estado <= valida_jogada;
+            estado <= guarda;
           else
-            estado <= recebe;
+            estado <= valida_jogada;
           end if;
 
         when valida_jogada =>
@@ -77,7 +77,7 @@ begin
           end if;
 
         when guarda =>        -- Guarda o dado no tabuleiro
-          estado <= prepara;
+          estado <= valida_tabuleiro;
 
         when valida_tabuleiro =>
           if fim_validacao_tabuleiro = '0' then
@@ -85,7 +85,7 @@ begin
           elsif fim_jogo = '1' then
             estado <= final;
           else
-            estado <= imprime;
+            estado <= prepara;
           end if;
 
         when final =>
@@ -136,8 +136,14 @@ begin
           dep_estados <= "010";
         when recebe =>
           dep_estados <= "011";
-        when guarda =>
+        when valida_jogada =>
           dep_estados <= "100";
+        when guarda =>
+          dep_estados <= "101";
+        when valida_tabuleiro =>
+          dep_estados <= "110";
+        when final =>
+          dep_estados <= "111";
         when others =>
           null;
       end case;
