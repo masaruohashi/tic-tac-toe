@@ -14,12 +14,12 @@ entity fluxo_dados_interface_jogo is
     recebe_dado          : in  std_logic;
     transmite_dado       : in  std_logic;
     entrada_serial       : in  std_logic;
+    verifica_jogada      : in  std_logic;
     saida_serial         : out std_logic;
     fim_tabuleiro        : out std_logic;
     fim_recepcao         : out std_logic;
     uart_livre           : out std_logic;
-    caractere_valido     : out std_logic;
-    posicao_valida       : out std_logic;
+    jogada_ok            : out std_logic;
     dep_endereco_leitura : out std_logic_vector(5 downto 0);
     dep_endereco_escrita : out std_logic_vector(5 downto 0)
   );
@@ -77,21 +77,24 @@ architecture exemplo of fluxo_dados_interface_jogo is
     );
   end component;
 
-  component valida_caractere is
+  component valida_jogada is
     port(
-      caractere        : in std_logic_vector(6 downto 0);
-      posicao_memoria  : out std_logic_vector(5 downto 0);
-      caractere_valido : out std_logic
+      clock           : in  std_logic;
+      verifica_jogada : in  std_logic;
+      caractere       : in  std_logic_vector(6 downto 0);
+      jogadas         : in  std_logic_vector(8 downto 0);
+      posicao         : in  std_logic;
+      jogada_ok       : out std_logic
     );
   end component;
 
   component registrador_jogada is
     port(
-      clock: in std_logic;
-      reset: in std_logic;
-      guarda_jogada: in std_logic;
-      entrada: in std_logic_vector(6 downto 0);
-      dados: out std_logic_vector(8 downto 0)
+      clock         : in  std_logic;
+      reset         : in  std_logic;
+      guarda_jogada : in  std_logic;
+      entrada       : in  std_logic_vector(6 downto 0);
+      dados         : out std_logic_vector(8 downto 0)
     );
   end component;
 
@@ -104,8 +107,9 @@ begin
   contador    : contador_tabuleiro port map (clock, s_limpa, conta, s_endereco_leitura, fim_tabuleiro);
   memoria     : memoria_caractere  port map (clock, reset, leitura, escrita, (others => '0'), s_endereco_leitura, s_endereco_escrita, s_saida_caractere);
   mapeador    : mapeador_caractere port map (s_entrada_caractere, s_endereco_escrita);
-  valida_char : valida_caractere   port map (s_entrada_caractere, s_endereco_escrita, caractere_valido);
+  valida_jog  : valida_jogada      port map (clock, verifica_jogada, s_saida_caractere, s_jogadas, jogada_ok);
   uart_1      : uart               port map (clock, reset, entrada_serial, recebe_dado, transmite_dado, s_saida_caractere, saida_serial, s_entrada_caractere, fim_recepcao, open, uart_livre, open, open, open, open);
+  jogadas     : registrador_jogada port map (clock, reset, escrita, s_entrada_caractere, s_jogadas);
 
   s_limpa <= reset or limpa;
   dep_endereco_leitura <= s_endereco_leitura;

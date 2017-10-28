@@ -50,23 +50,23 @@ architecture estrutural of jogo_velha is
       recebe_dado          : in  std_logic;
       transmite_dado       : in  std_logic;
       entrada_serial       : in  std_logic;
+      verifica_jogada      : in  std_logic;
       saida_serial         : out std_logic;
       fim_tabuleiro        : out std_logic;
       fim_recepcao         : out std_logic;
       uart_livre           : out std_logic;
-      caractere_valido     : out std_logic;
-      posicao_valida       : out std_logic;
+      jogada_ok            : out std_logic;
       dep_endereco_leitura : out std_logic_vector(5 downto 0);
       dep_endereco_escrita : out std_logic_vector(5 downto 0)
     );
   end component;
 
   signal s_fim_impressao, s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_limpa_contador: std_logic;
-  signal s_fim_recepcao, s_recebe_dado, s_insere_dado, s_caractere_valido, s_posicao_valida: std_logic;
+  signal s_fim_recepcao, s_recebe_dado, s_insere_dado, s_jogada_ok, s_verifica_jogada: std_logic;
 begin
 
-    unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, '1', '1', '1', '0', s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, open, open, dep_estados);
-    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_caractere_valido, s_posicao_valida, open, open);
+    unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_jogada_ok, '1', '1', '1', '0', s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, s_verifica_jogada, open, dep_estados);
+    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, s_verifica_jogada, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_jogada_ok, open, open);
 
     dep_fim_recepcao <= s_fim_recepcao;
 
