@@ -4,9 +4,10 @@ use ieee.std_logic_1164.all;
 
 entity valida_caractere is
   port(
-    verifica_jogada  : in  std_logic;
-    caractere        : in  std_logic_vector(6 downto 0);
-    caractere_valido : out std_logic
+    verifica_jogada       : in  std_logic;
+    caractere             : in  std_logic_vector(6 downto 0);
+    caractere_valido      : out std_logic;
+    fim_valida_caractere  : out std_logic
   );
 end valida_caractere;
 
@@ -37,6 +38,9 @@ begin
         when others =>
           caractere_valido <= '0';
       end case;
+      fim_valida_caractere <= '1';
+    else
+      fim_valida_caractere <= '0';
     end if;
   end process;
 end estrutural;
