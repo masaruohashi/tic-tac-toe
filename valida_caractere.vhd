@@ -14,27 +14,29 @@ architecture estrutural of valida_caractere is
 begin
   process (caractere)
   begin
-    case caractere is
-      when "0110111" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0111000" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0111001" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110100" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110101" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110110" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110001" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110010" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when "0110011" =>
-        caractere_valido <= '1' AND verifica_jogada;
-      when others =>
-        caractere_valido <= '0';
-    end case;
+    if verifica_jogada = '1' then
+      case caractere is
+        when "0110111" =>
+          caractere_valido <= '1';
+        when "0111000" =>
+          caractere_valido <= '1';
+        when "0111001" =>
+          caractere_valido <= '1';
+        when "0110100" =>
+          caractere_valido <= '1';
+        when "0110101" =>
+          caractere_valido <= '1';
+        when "0110110" =>
+          caractere_valido <= '1';
+        when "0110001" =>
+          caractere_valido <= '1';
+        when "0110010" =>
+          caractere_valido <= '1';
+        when "0110011" =>
+          caractere_valido <= '1';
+        when others =>
+          caractere_valido <= '0';
+      end case;
+    end if;
   end process;
 end estrutural;
