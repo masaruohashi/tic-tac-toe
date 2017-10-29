@@ -60,6 +60,13 @@ architecture exemplo of fluxo_dados_interface_jogo is
     );
   end component;
 
+  component mapeador_jogada is
+    port(
+      caractere: in std_logic_vector(6 downto 0);
+      jogada: out std_logic_vector(3 downto 0)
+    );
+  end component;
+
   component uart is
     port(
       clock: in std_logic;
@@ -100,6 +107,18 @@ architecture exemplo of fluxo_dados_interface_jogo is
       jogadas_realizadas: out std_logic_vector(8 downto 0);
       jogadas_jogador: out std_logic_vector(8 downto 0)
     );
+  end component;
+
+  component verifica_fim is
+      port(
+        clock: in std_logic;
+        enable: in std_logic;
+        jogador_atual: in std_logic;
+        jogadas: in std_logic_vector(8 downto 0);
+        jogador: in std_logic_vector(8 downto 0);
+        fim_jogo: out std_logic;
+        fim_validacao: out std_logic
+      );
   end component;
 
 signal s_limpa: std_logic;
