@@ -25,24 +25,29 @@ begin
 
   if clock'event and clock = '1' then
     if enable = '1' then
-      if jogador_atual='0' then
-        sinal_jogadas_jogador <= jogadas and jogador;
+      if jogadas = "111111111" then
+        sinal_fim <= '1';
       else
-        sinal_jogadas_jogador <= jogadas and (not jogador);
+        if jogador_atual='0' then
+          sinal_jogadas_jogador <= jogadas and jogador;
+        else
+          sinal_jogadas_jogador <= jogadas and (not jogador);
+        end if;
+        sinal_fim <= ((sinal_jogadas_jogador(0) and sinal_jogadas_jogador(1) and sinal_jogadas_jogador(2)) or
+                      (sinal_jogadas_jogador(3) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(5)) or
+                      (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(7) and sinal_jogadas_jogador(8)) or
+                      (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(3) and sinal_jogadas_jogador(6)) or
+                      (sinal_jogadas_jogador(1) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(7)) or
+                      (sinal_jogadas_jogador(2) and sinal_jogadas_jogador(5) and sinal_jogadas_jogador(8)) or
+                      (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
+                      (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
       end if;
-      sinal_fim <= ((sinal_jogadas_jogador(0) and sinal_jogadas_jogador(1) and sinal_jogadas_jogador(2)) or
-                    (sinal_jogadas_jogador(3) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(5)) or
-                    (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(7) and sinal_jogadas_jogador(8)) or
-                    (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(3) and sinal_jogadas_jogador(6)) or
-                    (sinal_jogadas_jogador(1) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(7)) or
-                    (sinal_jogadas_jogador(2) and sinal_jogadas_jogador(5) and sinal_jogadas_jogador(8)) or
-                    (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
-                    (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
       sinal_fim_validacao <= '1';
     else
       sinal_fim_validacao <= '0';
     end if;
   end if;
   fim_jogo <= sinal_fim;
+  fim_validacao <= sinal_fim_validacao;
   end process;
 end exemplo;
