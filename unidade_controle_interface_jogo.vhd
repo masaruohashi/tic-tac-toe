@@ -63,9 +63,9 @@ begin
 
         when recebe =>        -- Espera o dado ser recebido
           if fim_recepcao = '1' then
-            estado <= guarda;
-          else
             estado <= valida_jogada;
+          else
+            estado <= recebe;
           end if;
 
         when valida_jogada =>
