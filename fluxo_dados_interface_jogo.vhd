@@ -132,7 +132,7 @@ begin
   mapeador_char : mapeador_caractere port map (s_entrada_caractere, s_endereco_escrita);
   uart_1        : uart               port map (clock, reset, entrada_serial, recebe_dado, transmite_dado, s_saida_caractere, saida_serial, s_entrada_caractere, fim_recepcao, open, uart_livre, open, open, open, open);
   mapeador_jogo : mapeador_jogada    port map (s_entrada_caractere, s_posicao);
-  valida_jog    : valida_jogada      port map (s_saida_caractere, s_jogadas, jogada_ok);
+  valida_jog    : valida_jogada      port map (s_entrada_caractere, s_jogadas, jogada_ok);
   jogadas       : registrador_jogada port map (clock, reset, escrita, s_jogador_atual, s_posicao, s_jogadas, s_jogador);
   final_jogo    : verifica_fim       port map (clock, verificar_fim, s_jogador_atual, s_jogadas, s_jogador, fim_jogo, fim_validacao_tabuleiro);
 

@@ -27,7 +27,7 @@ architecture estrutural of valida_jogada is
     );
   end component;
 
-signal s_caractere_valido, s_posicao_valida, s_fim_valida_caractere : std_logic;
+signal s_caractere_valido, s_posicao_valida: std_logic;
 
 begin
   valida_char : valida_caractere  port map (caractere, s_caractere_valido);
