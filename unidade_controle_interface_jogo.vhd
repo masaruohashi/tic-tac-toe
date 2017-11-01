@@ -23,6 +23,7 @@ entity unidade_controle_interface_jogo is
     verifica_jogada: out std_logic;
     verifica_tabuleiro: out std_logic;
     jogo_acabado: out std_logic;
+    limpa_valida_jogada: out std_logic;
     dep_estados: out std_logic_vector(2 downto 0)
   );
 end unidade_controle_interface_jogo;
@@ -129,6 +130,10 @@ begin
     with estado select
       jogo_acabado <= '1' when final,
                       '0' when others;
+
+    with estado select
+      limpa_valida_jogada <= '1' when guarda,
+                             '0' when others;
 
     process (estado)
     begin
