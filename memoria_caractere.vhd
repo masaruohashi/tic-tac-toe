@@ -25,7 +25,7 @@ architecture estrutural of memoria_caractere is
   constant c_mais: std_logic_vector(6 downto 0) := "0101011";
   constant c_pipe: std_logic_vector(6 downto 0) := "1111100";
   constant c_x: std_logic_vector(6 downto 0) := "1011000";
-  constant c_o: std_logic_vector(6 downto 0) := "1000111";
+  constant c_o: std_logic_vector(6 downto 0) := "1001111";
   signal memoria_tabuleiro: memoria := (c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
                                         c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                                         c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
