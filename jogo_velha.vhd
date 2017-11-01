@@ -73,7 +73,7 @@ architecture estrutural of jogo_velha is
 begin
 
     unidade_controle : unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, s_fim_recepcao, s_fim_validacao_jogada, s_fim_validacao_tabuleiro, s_jogada_ok, s_fim_jogo, s_uart_livre, s_imprime_tabuleiro, s_atualiza_caractere, s_recebe_dado, s_limpa_contador, s_insere_dado, s_verifica_jogada, s_verifica_tabuleiro, fim, dep_estados);
-    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, s_verifica_tabuleiro, s_verifica_jogada, saida_serial, s_fim_impressao, s_fim_recepcao, s_fim_validacao_jogada, s_uart_livre, s_jogada_ok, open, open);
+    fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, s_verifica_tabuleiro, s_verifica_jogada, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_fim_validacao_tabuleiro, s_fim_validacao_jogada, s_fim_jogo, s_jogada_ok, open, open);
 
     dep_fim_recepcao <= s_fim_recepcao;
 
