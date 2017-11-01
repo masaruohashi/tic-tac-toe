@@ -12,7 +12,8 @@ entity jogo_velha is
     saida_serial: out std_logic;
     fim: out std_logic;
     dep_estados: out std_logic_vector(2 downto 0);
-    dep_fim_recepcao: out std_logic
+    dep_fim_recepcao: out std_logic;
+    dep_fim_impressao: out std_logic
   );
 end jogo_velha;
 
@@ -79,5 +80,5 @@ begin
     fluxo_dados: fluxo_dados_interface_jogo port map(clock, reset, s_limpa_contador, s_atualiza_caractere, s_atualiza_caractere, s_insere_dado, s_recebe_dado, s_imprime_tabuleiro, entrada_serial, s_verifica_tabuleiro, s_verifica_jogada, s_limpa_valida_jogada, saida_serial, s_fim_impressao, s_fim_recepcao, s_uart_livre, s_fim_validacao_tabuleiro, s_fim_validacao_jogada, s_fim_jogo, s_jogada_ok, open, open);
 
     dep_fim_recepcao <= s_fim_recepcao;
-
+    dep_fim_impressao <= s_fim_impressao;
 end estrutural;
