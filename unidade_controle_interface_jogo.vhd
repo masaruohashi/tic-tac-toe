@@ -10,7 +10,6 @@ entity unidade_controle_interface_jogo is
     start: in std_logic;
     fim_impressao: in std_logic;
     fim_recepcao: in std_logic;
-    fim_validacao_jogada: in std_logic;
     fim_validacao_tabuleiro: in std_logic;
     jogada_ok: in std_logic;
     fim_jogo: in std_logic;
@@ -70,9 +69,7 @@ begin
           end if;
 
         when valida_jogada =>
-          if fim_validacao_jogada = '0' then
-            estado <= valida_jogada;
-          elsif jogada_ok = '0' then
+          if jogada_ok = '0' then
             estado <= recebe;
           else
             estado <= guarda;
@@ -118,10 +115,6 @@ begin
     with estado select
       atualiza_caractere <= '1' when prepara,
                             '0' when others;
-
-    with estado select
-      verifica_jogada <= '1' when valida_jogada,
-                         '0' when others;
 
     with estado select
       verifica_tabuleiro <= '1' when valida_tabuleiro,

@@ -4,44 +4,38 @@ use ieee.std_logic_1164.all;
 
 entity valida_caractere is
   port(
-    verifica_jogada       : in  std_logic;
-    limpa                 : in  std_logic;
     caractere             : in  std_logic_vector(6 downto 0);
-    caractere_valido      : out std_logic;
-    fim_valida_caractere  : out std_logic
+    caractere_valido      : out std_logic
   );
 end valida_caractere;
 
 architecture estrutural of valida_caractere is
+  signal sinal_caractere_valido: std_logic := '0';
 begin
   process (caractere)
   begin
-    if limpa = '1' then
-      fim_valida_caractere <= '0';
-    elsif verifica_jogada = '1' then
-      case caractere is
-        when "0110111" =>
-          caractere_valido <= '1';
-        when "0111000" =>
-          caractere_valido <= '1';
-        when "0111001" =>
-          caractere_valido <= '1';
-        when "0110100" =>
-          caractere_valido <= '1';
-        when "0110101" =>
-          caractere_valido <= '1';
-        when "0110110" =>
-          caractere_valido <= '1';
-        when "0110001" =>
-          caractere_valido <= '1';
-        when "0110010" =>
-          caractere_valido <= '1';
-        when "0110011" =>
-          caractere_valido <= '1';
-        when others =>
-          caractere_valido <= '0';
-      end case;
-      fim_valida_caractere <= '1';
-    end if;
+    case caractere is
+      when "0110111" =>
+        sinal_caractere_valido <= '1';
+      when "0111000" =>
+        sinal_caractere_valido <= '1';
+      when "0111001" =>
+        sinal_caractere_valido <= '1';
+      when "0110100" =>
+        sinal_caractere_valido <= '1';
+      when "0110101" =>
+        sinal_caractere_valido <= '1';
+      when "0110110" =>
+        sinal_caractere_valido <= '1';
+      when "0110001" =>
+        sinal_caractere_valido <= '1';
+      when "0110010" =>
+        sinal_caractere_valido <= '1';
+      when "0110011" =>
+        sinal_caractere_valido <= '1';
+      when others =>
+        sinal_caractere_valido <= '0';
+    end case;
+    caractere_valido <= sinal_caractere_valido;
   end process;
 end estrutural;

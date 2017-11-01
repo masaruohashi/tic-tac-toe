@@ -15,14 +15,12 @@ entity fluxo_dados_interface_jogo is
     transmite_dado          : in  std_logic;
     entrada_serial          : in  std_logic;
     verificar_fim           : in  std_logic;
-    verifica_jogada         : in  std_logic;
     limpa_valida_jogada     : in  std_logic;
     saida_serial            : out std_logic;
     fim_tabuleiro           : out std_logic;
     fim_recepcao            : out std_logic;
     uart_livre              : out std_logic;
     fim_validacao_tabuleiro : out std_logic;
-    fim_validacao_jogada    : out std_logic;
     fim_jogo                : out std_logic;
     jogada_ok               : out std_logic;
     dep_endereco_leitura    : out std_logic_vector(5 downto 0);
@@ -91,13 +89,9 @@ architecture exemplo of fluxo_dados_interface_jogo is
 
   component valida_jogada is
     port(
-      clock                 : in  std_logic;
-      limpa                 : in  std_logic;
-      verifica_jogada       : in  std_logic;
       caractere             : in  std_logic_vector(6 downto 0);
       jogadas               : in  std_logic_vector(8 downto 0);
-      jogada_ok             : out std_logic;
-      fim_validacao_jogada  : out std_logic
+      jogada_ok             : out std_logic
     );
   end component;
 
@@ -138,7 +132,7 @@ begin
   mapeador_char : mapeador_caractere port map (s_entrada_caractere, s_endereco_escrita);
   uart_1        : uart               port map (clock, reset, entrada_serial, recebe_dado, transmite_dado, s_saida_caractere, saida_serial, s_entrada_caractere, fim_recepcao, open, uart_livre, open, open, open, open);
   mapeador_jogo : mapeador_jogada    port map (s_entrada_caractere, s_posicao);
-  valida_jog    : valida_jogada      port map (clock, limpa_valida_jogada, verifica_jogada, s_saida_caractere, s_jogadas, jogada_ok, fim_validacao_jogada);
+  valida_jog    : valida_jogada      port map (s_saida_caractere, s_jogadas, jogada_ok);
   jogadas       : registrador_jogada port map (clock, reset, escrita, s_jogador_atual, s_posicao, s_jogadas, s_jogador);
   final_jogo    : verifica_fim       port map (clock, verificar_fim, s_jogador_atual, s_jogadas, s_jogador, fim_jogo, fim_validacao_tabuleiro);
 

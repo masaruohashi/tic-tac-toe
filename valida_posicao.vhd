@@ -6,8 +6,6 @@ use ieee.numeric_std.all;
 
 entity valida_posicao is
   port(
-    clock           : in  std_logic;
-    verifica_jogada : in  std_logic;
     posicao         : in  std_logic_vector(8 downto 0);
     caractere       : in  std_logic_vector(6 downto 0);
     posicao_valida  : out std_logic
