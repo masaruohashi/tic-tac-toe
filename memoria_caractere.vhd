@@ -35,6 +35,7 @@ begin
   process (clock, reset, leitura, escrita)
   begin
     if reset='1' then
+      sinal_jogador <= '0';
       memoria_tabuleiro <= (c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
                             c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                             c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
