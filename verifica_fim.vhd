@@ -6,48 +6,32 @@ use ieee.std_logic_arith.all;
 
 entity verifica_fim is
     port(
-      clock: in std_logic;
-      enable: in std_logic;
-      jogador_atual: in std_logic;
-      jogadas: in std_logic_vector(8 downto 0);
-      jogador: in std_logic_vector(8 downto 0);
-      fim_jogo: out std_logic;
-      fim_validacao: out std_logic
+      jogador_atual: in std_logic;                          -- jogador atual de acordo com a memoria do tabuleiro
+      jogadas_realizadas: in std_logic_vector(8 downto 0);  -- vetor com as jogadas(1 ocupado, 0 aberto)
+      jogador_responsavel: in std_logic_vector(8 downto 0); -- vetor com o jogador(1 jogador 1, 0 jogador 0)
+      fim_jogo: out std_logic                               -- indica o fim do jogo
     );
 end verifica_fim;
 
 architecture exemplo of verifica_fim is
-signal sinal_fim, sinal_fim_validacao: std_logic;
+signal sinal_fim: std_logic;
 signal sinal_jogadas_jogador: std_logic_vector(8 downto 0);
 begin
-  process (clock, enable, jogador_atual)
+  process (jogador_atual)
   begin
-
-  if clock'event and clock = '1' then
-    if enable = '1' then
-      if jogadas = "111111111" then
-        sinal_fim <= '1';
-      else
-        if jogador_atual='0' then
-          sinal_jogadas_jogador <= jogadas and jogador;
-        else
-          sinal_jogadas_jogador <= jogadas and (not jogador);
-        end if;
-        sinal_fim <= ((sinal_jogadas_jogador(0) and sinal_jogadas_jogador(1) and sinal_jogadas_jogador(2)) or
-                      (sinal_jogadas_jogador(3) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(5)) or
-                      (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(7) and sinal_jogadas_jogador(8)) or
-                      (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(3) and sinal_jogadas_jogador(6)) or
-                      (sinal_jogadas_jogador(1) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(7)) or
-                      (sinal_jogadas_jogador(2) and sinal_jogadas_jogador(5) and sinal_jogadas_jogador(8)) or
-                      (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
-                      (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
-      end if;
-      sinal_fim_validacao <= '1';
+    if jogador_atual='1' then
+      sinal_jogadas_jogador <= jogadas_realizadas and jogador_responsavel;
     else
-      sinal_fim_validacao <= '0';
+      sinal_jogadas_jogador <= jogadas_realizadas and (not jogador_responsavel);
     end if;
-  end if;
-  fim_jogo <= sinal_fim;
-  fim_validacao <= sinal_fim_validacao;
+    sinal_fim <= ((sinal_jogadas_jogador(0) and sinal_jogadas_jogador(1) and sinal_jogadas_jogador(2)) or
+                  (sinal_jogadas_jogador(3) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(5)) or
+                  (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(7) and sinal_jogadas_jogador(8)) or
+                  (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(3) and sinal_jogadas_jogador(6)) or
+                  (sinal_jogadas_jogador(1) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(7)) or
+                  (sinal_jogadas_jogador(2) and sinal_jogadas_jogador(5) and sinal_jogadas_jogador(8)) or
+                  (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
+                  (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
+    fim_jogo <= sinal_fim;
   end process;
 end exemplo;

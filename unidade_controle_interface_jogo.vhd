@@ -5,30 +5,23 @@ use ieee.std_logic_1164.all;
 
 entity unidade_controle_interface_jogo is
   port(
-    clock: in std_logic;
-    reset: in std_logic;
-    start: in std_logic;
-    fim_impressao: in std_logic;
-    fim_recepcao: in std_logic;
-    fim_validacao_tabuleiro: in std_logic;
-    jogada_ok: in std_logic;
-    fim_jogo: in std_logic;
-    uart_livre: in std_logic;
-    imprime_tabuleiro: out std_logic;
-    atualiza_caractere: out std_logic;
-    recebe_dado: out std_logic;
-    limpa_contador: out std_logic;
-    insere_dado: out std_logic;
-    verifica_jogada: out std_logic;
-    verifica_tabuleiro: out std_logic;
-    jogo_acabado: out std_logic;
-    limpa_valida_jogada: out std_logic;
-    dep_estados: out std_logic_vector(2 downto 0)
+    clock               : in std_logic;
+    reset               : in std_logic;
+    start               : in std_logic;
+    fim_impressao       : in std_logic;   -- indica que o tabuleiro terminou de ser impresso
+    fim_recepcao        : in std_logic;   -- indica que um caractere terminou de ser recebido
+    jogada_ok           : in std_logic;   -- indica que o caractere recebido é valido
+    fim_jogo            : in std_logic;   -- indica que o jogo acabou
+    imprime_tabuleiro   : out std_logic;  -- habilita a impressao do tabuleiro
+    recebe_dado         : out std_logic;  -- habilita a recepção de um caractere do terminal
+    insere_dado         : out std_logic;  -- habilita a inserção do dado na memoria
+    jogo_acabado        : out std_logic;  -- indica que o jogo acabou
+    dep_estados         : out std_logic_vector(2 downto 0)
   );
 end unidade_controle_interface_jogo;
 
 architecture comportamental of unidade_controle_interface_jogo is
-type tipo_estado is (inicial, prepara, imprime, recebe, valida_jogada, guarda, valida_tabuleiro, final);
+type tipo_estado is (inicial, imprime, recebe, valida_jogada, guarda, valida_tabuleiro, final);
 signal estado   : tipo_estado;
 
 begin
@@ -42,21 +35,14 @@ begin
       case estado is
         when inicial =>                -- Aguarda sinal de start
           if start = '1' then
-            estado <= prepara;
+            estado <= imprime;
           else
             estado <= inicial;
           end if;
 
-        when prepara =>
+        when imprime =>                -- Imprime o tabuleiro no terminal
           if fim_impressao = '1' then
             estado <= recebe;
-          else
-            estado <= imprime;
-          end if;
-
-        when imprime =>                -- Imprime o tabuleiro no terminal
-          if uart_livre = '1' then
-            estado <= prepara;
           else
             estado <= imprime;
           end if;
@@ -79,12 +65,10 @@ begin
           estado <= valida_tabuleiro;
 
         when valida_tabuleiro =>
-          if fim_validacao_tabuleiro = '0' then
-            estado <= valida_tabuleiro;
-          elsif fim_jogo = '1' then
+          if fim_jogo = '1' then
             estado <= final;
           else
-            estado <= prepara;
+            estado <= imprime;
           end if;
 
         when final =>
@@ -100,6 +84,7 @@ begin
     with estado select
       imprime_tabuleiro <= '1' when imprime,
                            '0' when others;
+
     with estado select
       recebe_dado <= '1' when recebe,
                      '0' when others;
@@ -109,32 +94,14 @@ begin
                      '0' when others;
 
     with estado select
-      limpa_contador <= '1' when recebe,
-                        '0' when others;
-
-    with estado select
-      atualiza_caractere <= '1' when prepara,
-                            '0' when others;
-
-    with estado select
-      verifica_tabuleiro <= '1' when valida_tabuleiro,
-                            '0' when others;
-
-    with estado select
       jogo_acabado <= '1' when final,
                       '0' when others;
-
-    with estado select
-      limpa_valida_jogada <= '1' when guarda,
-                             '0' when others;
 
     process (estado)
     begin
       case estado is
         when inicial =>
           dep_estados <= "000";
-        when prepara =>
-          dep_estados <= "001";
         when imprime =>
           dep_estados <= "010";
         when recebe =>
