@@ -16,11 +16,7 @@ entity uart is
     dado_rec: out std_logic_vector(6 downto 0);
     tem_dado_rec: out std_logic;
     transm_andamento: out std_logic;
-    fim_transmissao: out std_logic;
-    dep_tick_rx: out std_logic;
-    dep_tick_tx: out std_logic;
-    dep_estado_recepcao: out std_logic_vector(5 downto 0);
-    dep_habilita_recepcao: out std_logic
+    fim_transmissao: out std_logic
   );
 end uart;
 
@@ -66,8 +62,8 @@ architecture estrutural of uart is
 
 begin
 
-  transmissao: transmissao_serial port map (clock, reset, transmite_dado, dado_trans, saida, fim_transmissao, transm_andamento, dep_tick_tx);
-  recepcao: recepcao_serial port map(clock, reset, entrada, recebe_dado, sinal_dado_rec, tem_dado_rec, open, dep_tick_rx, dep_estado_recepcao, dep_habilita_recepcao);
+  transmissao: transmissao_serial port map (clock, reset, transmite_dado, dado_trans, saida, fim_transmissao, transm_andamento, open);
+  recepcao: recepcao_serial port map(clock, reset, entrada, recebe_dado, sinal_dado_rec, tem_dado_rec, open, open, open, open);
 
   dado_rec <= sinal_dado_rec(8 downto 2);
   --display_1: hex7seg_en port map(sinal_dado_rec(5), sinal_dado_rec(4), sinal_dado_rec(3), sinal_dado_rec(2), '1', dado_rec(0), dado_rec(1), dado_rec(2), dado_rec(3), dado_rec(4), dado_rec(5), dado_rec(6));
