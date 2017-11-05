@@ -27,7 +27,7 @@ architecture exemplo of fluxo_dados_interface_jogo is
       reset                   : in std_logic;
       comeca_impressao        : in std_logic;
       uart_livre              : in std_logic;
-      posicao_leitura         : out std_logic_vector(6 downto 0);
+      posicao_leitura         : out std_logic_vector(5 downto 0);
       leitura_memoria         : out std_logic;
       transmite_dado          : out std_logic;
       pronto                  : out std_logic
@@ -40,8 +40,8 @@ architecture exemplo of fluxo_dados_interface_jogo is
       reset             : in  std_logic;
       leitura           : in  std_logic;
       escrita           : in  std_logic;
-      endereco_leitura  : in  std_logic_vector(6 downto 0);
-      endereco_escrita  : in  std_logic_vector(6 downto 0);
+      endereco_leitura  : in  std_logic_vector(5 downto 0);
+      endereco_escrita  : in  std_logic_vector(5 downto 0);
       saida             : out std_logic_vector(6 downto 0);
       jogador           : out std_logic
     );
@@ -50,7 +50,7 @@ architecture exemplo of fluxo_dados_interface_jogo is
   component mapeador_caractere is
     port(
       caractere       : in  std_logic_vector(6 downto 0);
-      posicao_memoria : out std_logic_vector(6 downto 0)
+      posicao_memoria : out std_logic_vector(5 downto 0)
     );
   end component;
 
@@ -106,7 +106,7 @@ architecture exemplo of fluxo_dados_interface_jogo is
     );
   end component;
 
-signal s_endereco_leitura, s_endereco_escrita: std_logic_vector(6 downto 0);
+signal s_endereco_leitura, s_endereco_escrita: std_logic_vector(5 downto 0);
 signal s_entrada_caractere, s_saida_caractere: std_logic_vector(6 downto 0);
 signal s_jogadas, s_jogador: std_logic_vector(8 downto 0);
 signal s_posicao: std_logic_vector(3 downto 0);

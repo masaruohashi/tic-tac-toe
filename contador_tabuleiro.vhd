@@ -9,13 +9,13 @@ entity contador_tabuleiro is
       clock     : in  std_logic;
       zera      : in  std_logic;
       conta     : in  std_logic;
-      contagem  : out std_logic_vector(6 downto 0);
+      contagem  : out std_logic_vector(5 downto 0);
       fim       : out std_logic
     );
 end contador_tabuleiro;
 
 architecture exemplo of contador_tabuleiro is
-signal IQ: unsigned(6 downto 0);
+signal IQ: unsigned(5 downto 0);
 
 begin
   process (clock, conta, IQ, zera)
@@ -29,7 +29,7 @@ begin
     end if;
   end if;
 
-  if IQ = 70 then
+  if IQ = 64 then
     fim <= '1';
   else
     fim <= '0';

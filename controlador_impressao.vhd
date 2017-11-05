@@ -9,7 +9,7 @@ entity controlador_impressao is
     reset                   : in std_logic;
     comeca_impressao        : in std_logic;
     uart_livre              : in std_logic;
-    posicao_leitura         : out std_logic_vector(6 downto 0);
+    posicao_leitura         : out std_logic_vector(5 downto 0);
     leitura_memoria         : out std_logic;
     transmite_dado          : out std_logic;
     pronto                  : out std_logic
@@ -36,7 +36,7 @@ architecture exemplo of controlador_impressao is
       clock     : in  std_logic;
       zera      : in  std_logic;
       conta     : in  std_logic;
-      contagem  : out std_logic_vector(6 downto 0);
+      contagem  : out std_logic_vector(5 downto 0);
       fim       : out std_logic
     );
   end component;
