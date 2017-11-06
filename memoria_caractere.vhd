@@ -9,8 +9,8 @@ entity memoria_caractere is
       reset: in std_logic;
       leitura: in std_logic;
       escrita: in std_logic;
-      endereco_leitura: in std_logic_vector(5 downto 0);
-      endereco_escrita: in std_logic_vector(5 downto 0);
+      endereco_leitura: in std_logic_vector(6 downto 0);
+      endereco_escrita: in std_logic_vector(6 downto 0);
       saida: out std_logic_vector(6 downto 0);
       jogador: out std_logic
     );
