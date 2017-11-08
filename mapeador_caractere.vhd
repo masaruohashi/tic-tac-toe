@@ -15,23 +15,23 @@ begin
   begin
     case caractere is
       when "0110111" =>
-        posicao_memoria <= "0000101";
+        posicao_memoria <= "0001011";
       when "0111000" =>
-        posicao_memoria <= "0001001";
+        posicao_memoria <= "0001111";
       when "0111001" =>
-        posicao_memoria <= "0001101";
+        posicao_memoria <= "0010011";
       when "0110100" =>
-        posicao_memoria <= "0011101";
+        posicao_memoria <= "0100011";
       when "0110101" =>
-        posicao_memoria <= "0100001";
+        posicao_memoria <= "0100111";
       when "0110110" =>
-        posicao_memoria <= "0100101";
+        posicao_memoria <= "0101011";
       when "0110001" =>
-        posicao_memoria <= "0110101";
+        posicao_memoria <= "0111011";
       when "0110010" =>
-        posicao_memoria <= "0111001";
+        posicao_memoria <= "0111111";
       when "0110011" =>
-        posicao_memoria <= "0111101";
+        posicao_memoria <= "1000011";
       when others =>
         null;
     end case;
