@@ -21,7 +21,7 @@ architecture estrutural of jogo_velha is
       clock                 : in std_logic;
       reset                 : in std_logic;
       start                 : in std_logic;
-      fim_recepcao          : in sfimtd_logic;
+      fim_recepcao          : in std_logic;
       recebe_dado           : in std_logic;
       guarda_dado           : in std_logic;
       entrada_serial        : in std_logic;
@@ -57,7 +57,7 @@ architecture estrutural of jogo_velha is
 
 begin
 
-  interface : interface_jogo port map (clock, reset, start, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, open);
-  logica: logica_jogo port map(clock, reset, s_habilita_logica, s_habilita_verificacao, s_jogador_atual, s_dado_paralelo, s_recebe_dado, s_guarda_dado, jogo_acabado, s_fim_recepcao, open);
+    interface : interface_jogo port map (clock, reset, start, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, open);
+    logica: logica_jogo port map(clock, reset, s_habilita_logica, s_habilita_verificacao, s_jogador_atual, s_dado_paralelo, s_recebe_dado, s_guarda_dado, jogo_acabado, s_fim_recepcao, open);
 
 end estrutural;
