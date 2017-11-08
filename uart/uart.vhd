@@ -50,14 +50,6 @@ architecture estrutural of uart is
     );
   end component;
 
-  component hex7seg_en is
-    port (
-      x3, x2, x1, x0 : in std_logic;
-      enable         : in std_logic;
-      a,b,c,d,e,f,g  : out std_logic
-    );
-  end component;
-
   signal sinal_dado_rec: std_logic_vector(11 downto 0);
 
 begin

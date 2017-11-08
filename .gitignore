@@ -11,6 +11,7 @@
 # Allow the vhd and vwf files
 !*.vhd
 !*.vwf
+!uart
 
 # Allow the gitignore file
 !*.gitignore
