@@ -5,19 +5,18 @@ use ieee.numeric_std.all;
 
 entity memoria_caractere is
     port(
-      clock: in std_logic;
-      reset: in std_logic;
-      leitura: in std_logic;
-      escrita: in std_logic;
-      endereco_leitura: in std_logic_vector(6 downto 0);
-      endereco_escrita: in std_logic_vector(6 downto 0);
-      saida: out std_logic_vector(6 downto 0);
-      jogador: out std_logic
+      clock             : in std_logic;
+      reset             : in std_logic;
+      leitura           : in std_logic;
+      escrita           : in std_logic;
+      jogador           : in std_logic;
+      endereco_leitura  : in std_logic_vector(6 downto 0);
+      endereco_escrita  : in std_logic_vector(6 downto 0);
+      saida             : out std_logic_vector(6 downto 0)
     );
 end memoria_caractere;
 
 architecture estrutural of memoria_caractere is
-  signal sinal_jogador: std_logic := '0';
   type memoria is array (0 to 63) of std_logic_vector(6 downto 0);
   constant c_enter: std_logic_vector(6 downto 0) := "0001101";
   constant c_espaco: std_logic_vector(6 downto 0) := "0100000";
@@ -37,10 +36,9 @@ architecture estrutural of memoria_caractere is
                                         c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                                         c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter);
 begin
-  process (clock, reset, leitura, escrita)
+  process (clock, reset, leitura, escrita, jogador)
   begin
     if reset='1' then
-      sinal_jogador <= '0';
       memoria_tabuleiro <= (c_esc, c_abrechaves, c_dois, c_J,
         									  c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
         									  c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
@@ -51,14 +49,12 @@ begin
       if leitura='1' then
         saida <= memoria_tabuleiro(to_integer(unsigned(endereco_leitura)));
       elsif escrita='1' then
-        if sinal_jogador='0' then
+        if jogador='0' then
           memoria_tabuleiro(to_integer(unsigned(endereco_escrita))) <= c_x;
         else
           memoria_tabuleiro(to_integer(unsigned(endereco_escrita))) <= c_o;
         end if;
-        sinal_jogador <= not sinal_jogador;
       end if;
     end if;
-    jogador <= sinal_jogador;
   end process;
 end estrutural;

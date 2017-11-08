@@ -48,17 +48,6 @@ architecture exemplo of circuito_recepcao is
     );  -- limpa|carrega|zera|desloca|conta|pronto
   end component;
 
-  component contador_8_recepcao is
-    port(
-      clock       : in  std_logic;
-      load        : in  std_logic;
-      zera        : in  std_logic;
-      conta       : in  std_logic;
-      contagem    : out std_logic_vector(2 downto 0);
-      cout   : out std_logic
-    );
-  end component;
-
   component circuito_superamostragem is
      generic(
         M: integer := 16
