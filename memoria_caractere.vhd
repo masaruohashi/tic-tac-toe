@@ -33,7 +33,7 @@ architecture estrutural of memoria_caractere is
   constant c_J: std_logic_vector(6 downto 0) := "1001010";
   constant c_H: std_logic_vector(6 downto 0) := "1001000";
   signal memoria_tabuleiro: memoria := (c_esc, c_abrechaves, c_dois, c_J,
-													 c_esc, c_abrechaves, c_zero, c_pontovirgula, c_zero, c_H,
+                                        c_esc, c_abrechaves, c_zero, c_pontovirgula, c_zero, c_H,
                                         c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
                                         c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                                         c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
@@ -44,12 +44,12 @@ begin
   begin
     if reset='1' then
       memoria_tabuleiro <= (c_esc, c_abrechaves, c_dois, c_J,
-											  c_esc, c_abrechaves, c_zero, c_pontovirgula, c_zero, c_H,
-        									  c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
-        									  c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
-        									  c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
-        									  c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
-        									  c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter);
+                            c_esc, c_abrechaves, c_zero, c_pontovirgula, c_zero, c_H,
+                            c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
+                            c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
+                            c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
+                            c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
+                            c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter);
     elsif clock'event and clock='1' then
       if leitura='1' then
         saida <= memoria_tabuleiro(to_integer(unsigned(endereco_leitura)));
