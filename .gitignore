@@ -12,9 +12,14 @@
 !*.vhd
 !*.vwf
 !uart
+!logica_jogo
+!interface_jogo
 
 # Allow the gitignore file
 !*.gitignore
 
-# Allow the readme file
-!README.md
+# Allow the md files
+!*.md
+
+# Allow LICENCE
+!LICENCE
