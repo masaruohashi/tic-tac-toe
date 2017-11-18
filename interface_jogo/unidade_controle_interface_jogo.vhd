@@ -12,7 +12,8 @@ entity unidade_controle_interface_jogo is
     fim_impressao       : in std_logic;   -- indica que o tabuleiro terminou de ser impresso
     fim_recepcao        : in std_logic;   -- indica que um caractere terminou de ser recebido
     fim_transmissao     : in std_logic;   -- indica que um caractere terminou de ser eniado para a outra bancada
-    liga_modem          : out std_logic;   -- indica que a interface do modem deve ser ligada
+    fim_jogo            : in std_logic;   -- indica que o jogo acabou
+    liga_modem          : out std_logic;  -- indica que a interface do modem deve ser ligada
     imprime_tabuleiro   : out std_logic;  -- habilita a impressao do tabuleiro
     envia_jogada        : out std_logic;  -- habilita o envio da jogada para a outra bancada
     recebe_dado         : out std_logic;  -- habilita a recepção de um caractere do terminal
@@ -22,7 +23,7 @@ entity unidade_controle_interface_jogo is
 end unidade_controle_interface_jogo;
 
 architecture comportamental of unidade_controle_interface_jogo is
-type tipo_estado is (inicial, imprime_oponente, recebe_jogador, envia_caractere, imprime_jogador, recebe_oponente);
+type tipo_estado is (inicial, imprime_oponente, recebe_jogador, envia_caractere, imprime_jogador, recebe_oponente, imprime_final, final);
 signal estado   : tipo_estado;
 
 begin
@@ -55,6 +56,8 @@ begin
         when recebe_jogador =>        -- Espera o dado ser recebido do terminal
           if fim_recepcao = '1' then
             estado <= envia_caractere;
+          elsif fim_jogo = '1' then
+            estado <= imprime_final;
           else
             estado <= recebe_jogador;
           end if;
@@ -76,9 +79,21 @@ begin
         when recebe_oponente =>        -- Espera o dado ser recebido da outra bancada
           if fim_recepcao = '1' then
             estado <= imprime_oponente;
+          elsif fim_jogo = '1' then
+            estado <= imprime_final;
           else
-            estado <= recebe_jogador;
+            estado <= recebe_oponente;
           end if;
+
+        when imprime_final =>                -- Imprime o tabuleiro no terminal
+          if fim_impressao = '1' then
+            estado <= final;
+          else
+            estado <= imprime_final;
+          end if;
+
+        when final =>
+          estado <= final;
 
         when others =>       -- Default
           estado <= inicial;
@@ -88,7 +103,7 @@ begin
 
     -- logica de saída
     with estado select
-      imprime_tabuleiro <= '1' when imprime_oponente | imprime_jogador,
+      imprime_tabuleiro <= '1' when imprime_oponente | imprime_jogador | imprime_final,
                            '0' when others;
 
     with estado select

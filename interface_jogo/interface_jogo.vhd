@@ -13,6 +13,7 @@ entity interface_jogo is
     recebe_dado           : in std_logic;
     guarda_dado           : in std_logic;
     entrada_serial        : in std_logic;
+    fim_jogo              : in std_logic;
     CTS                   : in std_logic;
     CD                    : in std_logic;
     RD                    : in std_logic;
@@ -39,7 +40,8 @@ architecture estrutural of interface_jogo is
       fim_impressao       : in std_logic;   -- indica que o tabuleiro terminou de ser impresso
       fim_recepcao        : in std_logic;   -- indica que um caractere terminou de ser recebido
       fim_transmissao     : in std_logic;   -- indica que um caractere terminou de ser eniado para a outra bancada
-      liga_modem          : out std_logic;   -- indica que a interface do modem deve ser ligada
+      fim_jogo            : in std_logic;   -- indica que o jogo acabou
+      liga_modem          : out std_logic;  -- indica que a interface do modem deve ser ligada
       imprime_tabuleiro   : out std_logic;  -- habilita a impressao do tabuleiro
       envia_jogada        : out std_logic;  -- habilita o envio da jogada para a outra bancada
       recebe_dado         : out std_logic;  -- habilita a recepção de um caractere do terminal
@@ -82,7 +84,7 @@ architecture estrutural of interface_jogo is
 
 begin
 
-  UC: unidade_controle_interface_jogo port map (clock, reset, start, jogador, s_fim_impressao, fim_recepcao, s_fim_transmissao, s_liga_modem, s_imprime_tabuleiro, s_envia_jogada, habilita_logica, s_jogador_atual, estados);
+  UC: unidade_controle_interface_jogo port map (clock, reset, start, jogador, s_fim_impressao, fim_recepcao, s_fim_transmissao, fim_jogo, s_liga_modem, s_imprime_tabuleiro, s_envia_jogada, habilita_logica, s_jogador_atual, estados);
   FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, s_liga_modem, s_envia_jogada, entrada_serial, CTS, CD, RD, DTR, RTS, TD, saida_serial, s_fim_impressao, s_fim_transmissao, s_fim_recepcao_jogador, s_fim_recepcao_oponente, dado_paralelo);
 
   jogador_atual <= s_jogador_atual;
