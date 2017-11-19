@@ -25,6 +25,9 @@ architecture estrutural of jogo_velha is
       recebe_dado           : in std_logic;
       guarda_dado           : in std_logic;
       entrada_serial        : in std_logic;
+      enable_fim            : in std_logic;
+      jogador_vencedor      : in std_logic;
+      empate                : in std_logic;
       jogador_atual         : out std_logic;
       saida_serial          : out std_logic;
       habilita_logica       : out std_logic;
@@ -45,6 +48,8 @@ architecture estrutural of jogo_velha is
       recebe_dado     : out std_logic;
       guarda_dado     : out std_logic;
       jogo_acabado    : out std_logic;
+      jogador_vencedor: out std_logic;
+      empate          : out std_logic;
       pronto          : out std_logic;
       estados         : out std_logic_vector(2 downto 0)
     );
@@ -53,11 +58,13 @@ architecture estrutural of jogo_velha is
   signal s_fim_recepcao, s_recebe_dado, s_guarda_dado: std_logic;
   signal s_habilita_logica, s_habilita_verificacao: std_logic;
   signal s_jogador_atual: std_logic;
+  signal s_jogo_acabado, s_jogador_vencedor, s_emapte : std_logic;
   signal s_dado_paralelo: std_logic_vector(6 downto 0);
 
 begin
 
-    interface : interface_jogo port map (clock, reset, start, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, open);
-    logica: logica_jogo port map(clock, reset, s_habilita_logica, s_habilita_verificacao, s_jogador_atual, s_dado_paralelo, s_recebe_dado, s_guarda_dado, jogo_acabado, s_fim_recepcao, open);
+    interface : interface_jogo port map (clock, reset, start, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogo_acabado, s_jogador_vencedor, s_emapte, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, open);
+    logica: logica_jogo port map(clock, reset, s_habilita_logica, s_habilita_verificacao, s_jogador_atual, s_dado_paralelo, s_recebe_dado, s_guarda_dado, s_jogo_acabado, s_jogador_vencedor, s_emapte, s_fim_recepcao, open);
 
+    jogo_acabado <= s_jogo_acabado;
 end estrutural;

@@ -87,7 +87,7 @@ begin
                     '0' when others;
 
   with estado select
-    pronto <= '1' when aguarda,
+    pronto <= '1' when aguarda, final,
               '0' when others;
 
   process(estado)

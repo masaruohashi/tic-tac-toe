@@ -11,7 +11,9 @@ entity fluxo_dados_logica_jogo is
     escreve_memoria     : in  std_logic;                    -- habilita a escrita na memoria
     entrada_dado        : in  std_logic_vector(6 downto 0); -- entrada de dados para a validacao
     fim_jogo            : out std_logic;                    -- indica que o jogo acabou por vitoria ou empate
-    jogada_ok           : out std_logic                     -- indica que a jogada realizada é valida
+    jogada_ok           : out std_logic;                    -- indica que a jogada realizada é valida
+    jogador_vencedor    : out std_logic;
+    empate              : out std_logic
   );
 end fluxo_dados_logica_jogo;
 
@@ -49,7 +51,9 @@ architecture exemplo of fluxo_dados_logica_jogo is
       jogador_atual: in std_logic;
       jogadas_realizadas: in std_logic_vector(8 downto 0);
       jogador_responsavel: in std_logic_vector(8 downto 0);
-      fim_jogo: out std_logic
+      fim_jogo: out std_logic;
+      jogador_vencedor : out std_logic;
+      empate : out std_logic
     );
   end component;
 
@@ -62,7 +66,7 @@ begin
   mapeador_jogo: mapeador_jogada port map (entrada_dado, s_posicao);
   jogadas: registrador_jogada port map (clock, reset, escreve_memoria, s_jogador_atual, s_posicao, s_jogadas, s_jogador);
   jogada_valida: valida_jogada port map (entrada_dado, s_jogadas, jogada_ok);
-  final_jogo: verifica_fim port map (s_jogador_atual, s_jogadas, s_jogador, fim_jogo);
+  final_jogo: verifica_fim port map (s_jogador_atual, s_jogadas, s_jogador, fim_jogo, jogador_vencedor, empate);
 
   s_jogador_atual <= jogador_atual;
 

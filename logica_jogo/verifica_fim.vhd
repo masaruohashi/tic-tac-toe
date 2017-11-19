@@ -9,7 +9,9 @@ entity verifica_fim is
       jogador_atual: in std_logic;                          -- jogador atual de acordo com a memoria do tabuleiro
       jogadas_realizadas: in std_logic_vector(8 downto 0);  -- vetor com as jogadas(1 ocupado, 0 aberto)
       jogador_responsavel: in std_logic_vector(8 downto 0); -- vetor com o jogador(1 jogador 1, 0 jogador 0)
-      fim_jogo: out std_logic                               -- indica o fim do jogo
+      fim_jogo: out std_logic;                              -- indica o fim do jogo
+      jogador_vencedor : out std_logic;
+      empate : out std_logic
     );
 end verifica_fim;
 
@@ -33,5 +35,12 @@ begin
                   (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
                   (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
     fim_jogo <= sinal_fim;
+    if jogador_atual='1' AND sinal_fim='1' then
+      jogador_vencedor <= '1';
+    elsif jogador_atual='0' AND sinal_fim='1' then
+      jogador_vencedor <= '0';
+    elsif jogadas_realizadas="111111111" then
+      empate <= '1';
+    end if;
   end process;
 end exemplo;

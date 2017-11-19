@@ -12,6 +12,9 @@ entity interface_jogo is
     recebe_dado           : in std_logic;
     guarda_dado           : in std_logic;
     entrada_serial        : in std_logic;
+    enable_fim            : in std_logic;
+    jogador_vencedor      : in std_logic;
+    empate                : in std_logic;
     jogador_atual         : out std_logic;
     saida_serial          : out std_logic;
     habilita_logica       : out std_logic;
@@ -46,10 +49,13 @@ architecture estrutural of interface_jogo is
       recebe_dado       : in  std_logic;
       imprime_tabuleiro : in  std_logic;
       entrada_serial    : in  std_logic;
+      enable_fim        : in  std_logic;
+      jogador_vencedor  : in  std_logic;
+      empate            : in  std_logic;
       saida_serial      : out std_logic;
       fim_impressao     : out std_logic;
       fim_recepcao      : out std_logic;
-      dado_paralelo     : out std_logic_vector(6 downto 0) 
+      dado_paralelo     : out std_logic_vector(6 downto 0)
     );
   end component;
 
@@ -59,7 +65,7 @@ architecture estrutural of interface_jogo is
 begin
 
   UC: unidade_controle_interface_jogo port map (clock, reset, start, s_fim_impressao, fim_recepcao, s_imprime_tabuleiro, habilita_logica, s_jogador_atual, estados);
-  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, entrada_serial, saida_serial, s_fim_impressao, habilita_verificacao, dado_paralelo);
+  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, entrada_serial, enable_fim, jogador_vencedor, empate, saida_serial, s_fim_impressao, habilita_verificacao, dado_paralelo);
 
   jogador_atual <= s_jogador_atual;
 
