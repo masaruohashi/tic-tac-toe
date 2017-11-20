@@ -14,9 +14,9 @@ entity registrador_mensagem is
 end registrador_mensagem;
 
 architecture comportamental of registrador_mensagem is
-signal s_vitoria: std_logic_vector(48 downto 0) := "1010110110100111101001101111111001011010011100001";
-signal s_derrota: std_logic_vector(48 downto 0) := "1000100110010111100101110010110111111101001100001";
-signal s_empate : std_logic_vector(48 downto 0) := "1000101110110111100001100001111010011001010100000";
+signal s_vitoria: std_logic_vector(48 downto 0) := "1010110110100111101001101111111001011010011100001"; -- mensagem "vitoria"
+signal s_derrota: std_logic_vector(48 downto 0) := "1000100110010111100101110010110111111101001100001"; -- mensagem "derrota"
+signal s_empate : std_logic_vector(48 downto 0) := "1000101110110111100001100001111010011001010100000"; -- mensagem "empate "
 begin
   process(clock, reset, empate, jogador_vencedor)
   begin

@@ -65,21 +65,9 @@ begin
         end if;
 
         if enable_fim='1' then
-          memoria_tabuleiro(70) <= mensagem_fim(48 downto 42);
-          memoria_tabuleiro(71) <= mensagem_fim(41 downto 35);
-          memoria_tabuleiro(72) <= mensagem_fim(34 downto 28);
-          memoria_tabuleiro(73) <= mensagem_fim(27 downto 21);
-          memoria_tabuleiro(74) <= mensagem_fim(20 downto 14);
-          memoria_tabuleiro(75) <= mensagem_fim(13 downto 7);
-          memoria_tabuleiro(76) <= mensagem_fim(6 downto 0);
+          memoria_tabuleiro(70 to 76) <= mensagem_fim;
         else
-          memoria_tabuleiro(70) <= c_espaco;
-          memoria_tabuleiro(71) <= c_espaco;
-          memoria_tabuleiro(72) <= c_espaco;
-          memoria_tabuleiro(73) <= c_espaco;
-          memoria_tabuleiro(74) <= c_espaco;
-          memoria_tabuleiro(75) <= c_espaco;
-          memoria_tabuleiro(76) <= c_espaco;
+          memoria_tabuleiro(70 to 76) <= (others => c_espaco);
         end if;
       end if;
     end if;
