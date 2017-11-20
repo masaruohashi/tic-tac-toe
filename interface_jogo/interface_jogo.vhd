@@ -14,6 +14,8 @@ entity interface_jogo is
     guarda_dado           : in std_logic;
     entrada_serial        : in std_logic;
     fim_jogo              : in std_logic;
+    jogador_vencedor      : in std_logic;
+    empate                : in std_logic;
     CTS                   : in std_logic;
     CD                    : in std_logic;
     RD                    : in std_logic;
@@ -58,6 +60,9 @@ architecture estrutural of interface_jogo is
       escreve_memoria         : in  std_logic;                     -- habilita a escrita na memoria
       recebe_dado_jogador     : in  std_logic;                     -- habilita a recepção de dados do jogador na uart
       imprime_tabuleiro       : in  std_logic;                     -- habilita o circuito de controle de impressao
+      enable_fim              : in  std_logic;                     -- habilita a impressao das mensagens de fim de jogo
+      jogador_vencedor        : in  std_logic;                     -- indica qual jogador venceu
+      empate                  : in  std_logic;                     -- indica se houve empate
       liga_modem              : in  std_logic;                     -- liga a interface do modem para a comunicação com a outra bancada
       envia_dado              : in  std_logic;                     -- habilita o envio de dados para a outra bancada
       entrada_serial_jogador  : in  std_logic;                     -- entrada de dados do terminal para a uart
@@ -80,12 +85,12 @@ architecture estrutural of interface_jogo is
   signal s_jogador_atual: std_logic;
   signal s_fim_recepcao_jogador, s_fim_recepcao_oponente: std_logic;
   signal s_liga_modem, s_envia_jogada: std_logic;
-  signal s_fim_transmissao: std_logic; 
+  signal s_fim_transmissao: std_logic;
 
 begin
 
   UC: unidade_controle_interface_jogo port map (clock, reset, start, jogador, s_fim_impressao, fim_recepcao, s_fim_transmissao, fim_jogo, s_liga_modem, s_imprime_tabuleiro, s_envia_jogada, habilita_logica, s_jogador_atual, estados);
-  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, s_liga_modem, s_envia_jogada, entrada_serial, CTS, CD, RD, DTR, RTS, TD, saida_serial, s_fim_impressao, s_fim_transmissao, s_fim_recepcao_jogador, s_fim_recepcao_oponente, dado_paralelo);
+  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, fim_jogo, jogador_vencedor, empate, s_liga_modem, s_envia_jogada, entrada_serial, CTS, CD, RD, DTR, RTS, TD, saida_serial, s_fim_impressao, s_fim_transmissao, s_fim_recepcao_jogador, s_fim_recepcao_oponente, dado_paralelo);
 
   jogador_atual <= s_jogador_atual;
   habilita_verificacao <= s_fim_recepcao_jogador or s_fim_recepcao_oponente;

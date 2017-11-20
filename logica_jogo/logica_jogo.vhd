@@ -14,6 +14,8 @@ entity logica_jogo is
     recebe_dado     : out std_logic;
     guarda_dado     : out std_logic;
     jogo_acabado    : out std_logic;
+    jogador_vencedor: out std_logic;
+    empate          : out std_logic;
     pronto          : out std_logic;
     estados         : out std_logic_vector(2 downto 0)
   );
@@ -45,7 +47,9 @@ architecture estrutural of logica_jogo is
       escreve_memoria     : in  std_logic;
       entrada_dado        : in  std_logic_vector(6 downto 0);
       fim_jogo            : out std_logic;
-      jogada_ok           : out std_logic
+      jogada_ok           : out std_logic;
+      jogador_vencedor    : out std_logic;
+      empate              : out std_logic
     );
   end component;
 
@@ -55,8 +59,7 @@ architecture estrutural of logica_jogo is
 begin
 
   UC: unidade_controle_logica_jogo port map (clock, reset, start, fim_recepcao, s_jogada_ok, s_fim_jogo, recebe_dado, s_guarda_dado, jogo_acabado, pronto, estados);
-  FD: fluxo_dados_logica_jogo port map(clock, reset, jogador_atual, s_guarda_dado, entrada_dado, s_fim_jogo, s_jogada_ok);
+  FD: fluxo_dados_logica_jogo port map(clock, reset, jogador_atual, s_guarda_dado, entrada_dado, s_fim_jogo, s_jogada_ok, jogador_vencedor, empate);
 
   guarda_dado <= s_guarda_dado;
-
 end estrutural;

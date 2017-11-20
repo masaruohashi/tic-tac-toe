@@ -10,6 +10,8 @@ entity memoria_caractere is
       leitura           : in std_logic;
       escrita           : in std_logic;
       jogador           : in std_logic;
+      enable_fim        : in std_logic;
+      mensagem_fim      : in std_logic_vector(48 downto 0);
       endereco_leitura  : in std_logic_vector(6 downto 0);
       endereco_escrita  : in std_logic_vector(6 downto 0);
       saida             : out std_logic_vector(6 downto 0)
@@ -17,7 +19,7 @@ entity memoria_caractere is
 end memoria_caractere;
 
 architecture estrutural of memoria_caractere is
-  type memoria is array (0 to 69) of std_logic_vector(6 downto 0);
+  type memoria is array (0 to 76) of std_logic_vector(6 downto 0);
   constant c_enter: std_logic_vector(6 downto 0) := "0001101";
   constant c_espaco: std_logic_vector(6 downto 0) := "0100000";
   constant c_hifen: std_logic_vector(6 downto 0) := "0101101";
@@ -38,7 +40,8 @@ architecture estrutural of memoria_caractere is
                                         c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                                         c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
                                         c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
-                                        c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter);
+                                        c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
+                                        c_espaco, c_espaco, c_espaco, c_espaco, c_espaco, c_espaco, c_espaco);
 begin
   process (clock, reset, leitura, escrita, jogador)
   begin
@@ -49,7 +52,8 @@ begin
                             c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
                             c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
                             c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_mais, c_hifen, c_hifen, c_hifen, c_enter,
-                            c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter);
+                            c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_pipe, c_espaco, c_espaco, c_espaco, c_enter,
+                            c_espaco, c_espaco, c_espaco, c_espaco, c_espaco, c_espaco, c_espaco);
     elsif clock'event and clock='1' then
       if leitura='1' then
         saida <= memoria_tabuleiro(to_integer(unsigned(endereco_leitura)));
@@ -58,6 +62,14 @@ begin
           memoria_tabuleiro(to_integer(unsigned(endereco_escrita))) <= c_x;
         else
           memoria_tabuleiro(to_integer(unsigned(endereco_escrita))) <= c_o;
+        end if;
+
+        if enable_fim='1' then
+          for I in 0 to 6 loop
+            memoria_tabuleiro(70 + I) <= mensagem_fim((48 - (6 * I)) downto (42 - (6 * I)));
+          end loop;
+        else
+          memoria_tabuleiro(70 to 76) <= (others => c_espaco);
         end if;
       end if;
     end if;
