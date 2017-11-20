@@ -44,7 +44,7 @@ architecture exemplo of fluxo_dados_interface_jogo is
       enable           : in  std_logic;
       jogador_vencedor : in  std_logic;
       empate           : in  std_logic;
-      saida            : out std_logic_vector(41 downto 0)
+      saida            : out std_logic_vector(48 downto 0)
     );
   end component;
 
@@ -56,7 +56,7 @@ architecture exemplo of fluxo_dados_interface_jogo is
       escrita           : in std_logic;
       jogador           : in std_logic;
       enable_fim        : in std_logic;
-      mensagem_fim      : in std_logic_vector(41 downto 0);
+      mensagem_fim      : in std_logic_vector(48 downto 0);
       endereco_leitura  : in std_logic_vector(6 downto 0);
       endereco_escrita  : in std_logic_vector(6 downto 0);
       saida             : out std_logic_vector(6 downto 0)
@@ -92,7 +92,7 @@ signal s_jogador_atual: std_logic;
 signal s_uart_livre: std_logic;
 signal s_transmite_dado: std_logic;
 signal s_leitura_memoria: std_logic;
-signal s_mensagem_fim: std_logic_vector(41 downto 0);
+signal s_mensagem_fim: std_logic_vector(48 downto 0);
 
 begin
 
