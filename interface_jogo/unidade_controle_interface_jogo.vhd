@@ -8,9 +8,14 @@ entity unidade_controle_interface_jogo is
     clock               : in std_logic;
     reset               : in std_logic;
     start               : in std_logic;
+    jogador             : in std_logic;   -- indica se o jogador é o primeiro a jogar ou o segundo
     fim_impressao       : in std_logic;   -- indica que o tabuleiro terminou de ser impresso
     fim_recepcao        : in std_logic;   -- indica que um caractere terminou de ser recebido
+    fim_transmissao     : in std_logic;   -- indica que um caractere terminou de ser eniado para a outra bancada
+    fim_jogo            : in std_logic;   -- indica que o jogo acabou
+    liga_modem          : out std_logic;  -- indica que a interface do modem deve ser ligada
     imprime_tabuleiro   : out std_logic;  -- habilita a impressao do tabuleiro
+    envia_jogada        : out std_logic;  -- habilita o envio da jogada para a outra bancada
     recebe_dado         : out std_logic;  -- habilita a recepção de um caractere do terminal
     jogador_atual       : out std_logic;  -- indica o jogador atual do jogo da velha
     dep_estados         : out std_logic_vector(2 downto 0)
@@ -18,7 +23,7 @@ entity unidade_controle_interface_jogo is
 end unidade_controle_interface_jogo;
 
 architecture comportamental of unidade_controle_interface_jogo is
-type tipo_estado is (inicial, imprime, recebe, valida_jogada, guarda, valida_tabuleiro, final);
+type tipo_estado is (inicial, imprime_oponente, recebe_jogador, envia_caractere, imprime_jogador, recebe_oponente, imprime_final, final);
 signal estado   : tipo_estado;
 
 begin
@@ -32,24 +37,63 @@ begin
       case estado is
         when inicial =>                -- Aguarda sinal de start
           if start = '1' then
-            estado <= imprime;
+            if jogador='0' then
+              estado <= imprime_oponente;
+            else
+              estado <= imprime_jogador;
+            end if;
           else
             estado <= inicial;
           end if;
 
-        when imprime =>                -- Imprime o tabuleiro no terminal
+        when imprime_oponente =>                -- Imprime o tabuleiro no terminal
           if fim_impressao = '1' then
-            estado <= recebe;
+            estado <= recebe_jogador;
           else
-            estado <= imprime;
+            estado <= imprime_oponente;
           end if;
 
-        when recebe =>        -- Espera o dado ser recebido
+        when recebe_jogador =>        -- Espera o dado ser recebido do terminal
           if fim_recepcao = '1' then
-            estado <= imprime;
+            estado <= envia_caractere;
+          elsif fim_jogo = '1' then
+            estado <= imprime_final;
           else
-            estado <= recebe;
+            estado <= recebe_jogador;
           end if;
+
+        when envia_caractere =>
+          if fim_transmissao = '1' then
+            estado <= imprime_jogador;
+          else
+            estado <= envia_caractere;
+        end if;
+
+        when imprime_jogador =>                -- Imprime o tabuleiro no terminal
+          if fim_impressao = '1' then
+            estado <= recebe_oponente;
+          else
+            estado <= imprime_jogador;
+          end if;
+
+        when recebe_oponente =>        -- Espera o dado ser recebido da outra bancada
+          if fim_recepcao = '1' then
+            estado <= imprime_oponente;
+          elsif fim_jogo = '1' then
+            estado <= imprime_final;
+          else
+            estado <= recebe_oponente;
+          end if;
+
+        when imprime_final =>                -- Imprime o tabuleiro no terminal
+          if fim_impressao = '1' then
+            estado <= final;
+          else
+            estado <= imprime_final;
+          end if;
+
+        when final =>
+          estado <= final;
 
         when others =>       -- Default
           estado <= inicial;
@@ -59,28 +103,34 @@ begin
 
     -- logica de saída
     with estado select
-      imprime_tabuleiro <= '1' when imprime,
+      imprime_tabuleiro <= '1' when imprime_oponente | imprime_jogador | imprime_final,
                            '0' when others;
 
     with estado select
-      recebe_dado <= '1' when recebe,
+      recebe_dado <= '1' when recebe_jogador | recebe_oponente,
                      '0' when others;
 
     with estado select
-      jogador_atual <= '0' when recebe | guarda,
-                       '1' when others;
+      envia_jogada <= '1' when envia_caractere,
+                      '0' when others;
+
+    with estado select
+      jogador_atual <= '1' when imprime_oponente | recebe_oponente,
+                       '0' when others;
+
+    with estado select
+      liga_modem <= '1' when envia_caractere | recebe_oponente,
+                    '0' when others;
 
     process (estado)
     begin
       case estado is
         when inicial =>
           dep_estados <= "000";
-        when imprime =>
+        when imprime_oponente =>
           dep_estados <= "010";
-        when recebe =>
+        when recebe_jogador =>
           dep_estados <= "011";
-        when final =>
-          dep_estados <= "111";
         when others =>
           null;
       end case;
