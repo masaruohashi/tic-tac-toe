@@ -65,7 +65,9 @@ begin
         end if;
 
         if enable_fim='1' then
-          memoria_tabuleiro(70 to 76) <= mensagem_fim;
+          for I in 0 to 6 loop
+            memoria_tabuleiro(70 + I) <= mensagem_fim((48 - (6 * I)) downto (42 - (6 * I)));
+          end loop;
         else
           memoria_tabuleiro(70 to 76) <= (others => c_espaco);
         end if;

@@ -74,7 +74,6 @@ architecture estrutural of jogo_velha is
   signal s_jogador_atual: std_logic;
   signal s_jogo_acabado, s_jogador_vencedor, s_empate : std_logic;
   signal s_dado_paralelo: std_logic_vector(6 downto 0);
-  signal s_jogo_acabado: std_logic;
 
 begin
 

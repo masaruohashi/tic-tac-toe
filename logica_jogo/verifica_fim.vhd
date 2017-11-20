@@ -18,6 +18,7 @@ end verifica_fim;
 architecture exemplo of verifica_fim is
 signal sinal_fim: std_logic;
 signal sinal_jogadas_jogador: std_logic_vector(8 downto 0);
+signal sinal_jogador_vencedor, sinal_empate: std_logic;
 begin
   process (jogador_atual)
   begin
@@ -35,11 +36,16 @@ begin
                   (sinal_jogadas_jogador(0) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(8)) or
                   (sinal_jogadas_jogador(6) and sinal_jogadas_jogador(4) and sinal_jogadas_jogador(2)));
     fim_jogo <= sinal_fim;
+  end process;
 
+  process (sinal_fim, jogadas_realizadas)
+  begin
     if sinal_fim = '1' then
-      jogador_vencedor <= jogador_atual;
+      sinal_jogador_vencedor <= jogador_atual;
     elsif jogadas_realizadas="111111111" then
-      empate <= '1';
+      sinal_empate <= '1';
     end if;
+    jogador_vencedor <= sinal_jogador_vencedor;
+    empate <= sinal_empate;
   end process;
 end exemplo;
