@@ -15,6 +15,7 @@
 !logica_jogo
 !interface_jogo
 !interface_modem
+!modem
 
 # Allow the gitignore file
 !*.gitignore
