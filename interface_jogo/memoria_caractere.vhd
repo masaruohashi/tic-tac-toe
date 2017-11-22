@@ -64,13 +64,16 @@ begin
           memoria_tabuleiro(to_integer(unsigned(endereco_escrita))) <= c_o;
         end if;
 
-        if enable_fim='1' then
-          for I in 0 to 6 loop
-            memoria_tabuleiro(70 + I) <= mensagem_fim((48 - (6 * I)) downto (42 - (6 * I)));
-          end loop;
-        else
-          memoria_tabuleiro(70 to 76) <= (others => c_espaco);
-        end if;
+      elsif enable_fim='1' then
+          memoria_tabuleiro(70) <= mensagem_fim(48 downto 42);
+          memoria_tabuleiro(71) <= mensagem_fim(41 downto 35);
+          memoria_tabuleiro(72) <= mensagem_fim(34 downto 28);
+          memoria_tabuleiro(73) <= mensagem_fim(27 downto 21);
+          memoria_tabuleiro(74) <= mensagem_fim(20 downto 14);
+          memoria_tabuleiro(75) <= mensagem_fim(13 downto 7);
+          memoria_tabuleiro(76) <= mensagem_fim(6 downto 0)
+      else
+        memoria_tabuleiro(70 to 76) <= (others => c_espaco);
       end if;
     end if;
   end process;
