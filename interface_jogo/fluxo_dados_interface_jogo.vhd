@@ -28,7 +28,8 @@ entity fluxo_dados_interface_jogo is
     fim_transmissao         : out std_logic;                     -- indica o fim da tranmissao do dado para a outra bancada
     fim_recepcao_jogador    : out std_logic;                     -- indica o fim da recepção de um caractere do terminal na uart do jogador
     fim_recepcao_oponente   : out std_logic;                     -- indica o fim da recepção de um caractere do terminal na uart do oponente
-    dado_paralelo           : out std_logic_vector(6 downto 0)   -- dados a serem verificados pela logica
+    dado_paralelo           : out std_logic_vector(6 downto 0);  -- dados a serem verificados pela logica
+    dep_recebe_dado_oponente: out std_logic
   );
 end fluxo_dados_interface_jogo;
 
@@ -148,5 +149,6 @@ begin
   modem_interface: interface_modem port map (clock, reset, liga_modem, envia_dado, s_saida_serial_jogada, CTS, CD, RD, DTR, RTS, TD, s_envia_dado_oponente, s_recebe_dado_oponente, s_entrada_serial_oponente);
 
   dado_paralelo <= s_entrada_caractere;
+  dep_recebe_dado_oponente <= s_recebe_dado_oponente;
 
 end exemplo;

@@ -19,7 +19,8 @@ entity jogo_velha is
     saida_serial          : out std_logic;
     jogo_acabado          : out std_logic;
     dep_estados_logica    : out std_logic_vector(2 downto 0);
-    dep_estados_interface : out std_logic_vector(2 downto 0)
+    dep_estados_interface : out std_logic_vector(2 downto 0);
+    dep_recebe_dado_oponente: out std_logic
   );
 end jogo_velha;
 
@@ -49,7 +50,8 @@ architecture estrutural of jogo_velha is
       habilita_logica       : out std_logic;
       habilita_verificacao  : out std_logic;
       dado_paralelo         : out std_logic_vector(6 downto 0);
-      estados               : out std_logic_vector(2 downto 0)
+      estados               : out std_logic_vector(2 downto 0);
+      dep_recebe_dado_oponente: out std_logic
     );
   end component;
 
@@ -79,7 +81,7 @@ architecture estrutural of jogo_velha is
 
 begin
 
-    interface : interface_jogo port map (clock, reset, start, jogador, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogo_acabado, s_jogador_vencedor, s_empate, CTS, CD, RD, DTR, RTS, TD, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, dep_estados_interface);
+    interface : interface_jogo port map (clock, reset, start, jogador, s_fim_recepcao, s_recebe_dado, s_guarda_dado, entrada_serial, s_jogo_acabado, s_jogador_vencedor, s_empate, CTS, CD, RD, DTR, RTS, TD, s_jogador_atual, saida_serial, s_habilita_logica, s_habilita_verificacao, s_dado_paralelo, dep_estados_interface, dep_recebe_dado_oponente);
     logica: logica_jogo port map(clock, reset, s_habilita_logica, s_habilita_verificacao, s_jogador_atual, s_dado_paralelo, s_recebe_dado, s_guarda_dado, s_jogo_acabado, s_jogador_vencedor, s_empate, s_fim_recepcao, dep_estados_logica);
 
     jogo_acabado <= s_jogo_acabado;

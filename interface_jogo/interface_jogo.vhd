@@ -27,7 +27,8 @@ entity interface_jogo is
     habilita_logica       : out std_logic;
     habilita_verificacao  : out std_logic;
     dado_paralelo         : out std_logic_vector(6 downto 0);
-    estados               : out std_logic_vector(2 downto 0)
+    estados               : out std_logic_vector(2 downto 0);
+    dep_recebe_dado_oponente: out std_logic
   );
 end interface_jogo;
 
@@ -77,7 +78,8 @@ architecture estrutural of interface_jogo is
       fim_transmissao         : out std_logic;                     -- indica o fim da tranmissao do dado para a outra bancada
       fim_recepcao_jogador    : out std_logic;                     -- indica o fim da recepção de um caractere do terminal na uart do jogador
       fim_recepcao_oponente   : out std_logic;                     -- indica o fim da recepção de um caractere do terminal na uart do oponente
-      dado_paralelo           : out std_logic_vector(6 downto 0)   -- dados a serem verificados pela logica
+      dado_paralelo           : out std_logic_vector(6 downto 0);  -- dados a serem verificados pela logica
+      dep_recebe_dado_oponente: out std_logic
     );
   end component;
 
@@ -90,7 +92,7 @@ architecture estrutural of interface_jogo is
 begin
 
   UC: unidade_controle_interface_jogo port map (clock, reset, start, jogador, s_fim_impressao, fim_recepcao, s_fim_transmissao, fim_jogo, s_liga_modem, s_imprime_tabuleiro, s_envia_jogada, habilita_logica, s_jogador_atual, estados);
-  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, fim_jogo, jogador_vencedor, empate, s_liga_modem, s_envia_jogada, entrada_serial, CTS, CD, RD, DTR, RTS, TD, saida_serial, s_fim_impressao, s_fim_transmissao, s_fim_recepcao_jogador, s_fim_recepcao_oponente, dado_paralelo);
+  FD: fluxo_dados_interface_jogo port map(clock, reset, s_jogador_atual, guarda_dado, recebe_dado, s_imprime_tabuleiro, fim_jogo, jogador_vencedor, empate, s_liga_modem, s_envia_jogada, entrada_serial, CTS, CD, RD, DTR, RTS, TD, saida_serial, s_fim_impressao, s_fim_transmissao, s_fim_recepcao_jogador, s_fim_recepcao_oponente, dado_paralelo, dep_recebe_dado_oponente);
 
   jogador_atual <= s_jogador_atual;
   habilita_verificacao <= s_fim_recepcao_jogador or s_fim_recepcao_oponente;
