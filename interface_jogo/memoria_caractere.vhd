@@ -71,7 +71,7 @@ begin
           memoria_tabuleiro(73) <= mensagem_fim(27 downto 21);
           memoria_tabuleiro(74) <= mensagem_fim(20 downto 14);
           memoria_tabuleiro(75) <= mensagem_fim(13 downto 7);
-          memoria_tabuleiro(76) <= mensagem_fim(6 downto 0)
+          memoria_tabuleiro(76) <= mensagem_fim(6 downto 0);
       else
         memoria_tabuleiro(70 to 76) <= (others => c_espaco);
       end if;
