@@ -125,6 +125,15 @@ architecture exemplo of fluxo_dados_interface_jogo is
     );
   end component;
 
+  component mapeador_uart is
+  port(
+    jogador: in std_logic;
+    uart_recebe_dado: in std_logic;
+    uart_jogador: out std_logic;
+    uart_oponente: out std_logic
+  );
+  end component;
+
 signal s_endereco_leitura, s_endereco_escrita: std_logic_vector(6 downto 0);
 signal s_entrada_caractere, s_entrada_caractere_jogador, s_entrada_caractere_oponente, s_saida_caractere: std_logic_vector(6 downto 0);
 signal s_jogador_atual: std_logic;
@@ -136,6 +145,8 @@ signal s_recebe_dado_oponente: std_logic;
 signal s_envia_dado_oponente: std_logic;
 signal s_saida_serial_jogada: std_logic;
 signal s_mensagem_fim: std_logic_vector(48 downto 0);
+signal s_jogador_recebe_dado, s_oponente_recebe_dado: std_logic;
+signal s_habilita_uart_oponente: std_logic;
 
 begin
 
@@ -143,12 +154,14 @@ begin
   mensagens: registrador_mensagem port map(clock, reset, enable_fim, jogador_vencedor, empate, s_mensagem_fim);
   memoria: memoria_caractere port map (clock, reset, s_leitura_memoria, escreve_memoria, jogador_atual, enable_fim, s_mensagem_fim, s_endereco_leitura, s_endereco_escrita, s_saida_caractere);
   mapeador_char: mapeador_caractere port map (s_entrada_caractere, s_endereco_escrita);
-  uart_jogador: uart port map (clock, reset, entrada_serial_jogador, recebe_dado_jogador, s_transmite_dado, s_saida_caractere, saida_serial_tabuleiro, s_entrada_caractere_jogador, fim_recepcao_jogador, open, s_uart_livre);
+  uart_jogador: uart port map (clock, reset, entrada_serial_jogador, s_jogador_recebe_dado, s_transmite_dado, s_saida_caractere, saida_serial_tabuleiro, s_entrada_caractere_jogador, fim_recepcao_jogador, open, s_uart_livre);
   mapeia_entrada_caractere: mapeador_entrada_caractere port map (s_entrada_caractere_jogador, s_entrada_caractere_oponente, jogador_atual, s_entrada_caractere);
-  uart_oponente: uart port map (clock, reset, s_entrada_serial_oponente, s_recebe_dado_oponente, s_envia_dado_oponente, s_entrada_caractere_jogador, s_saida_serial_jogada, s_entrada_caractere_oponente, fim_recepcao_oponente, open, fim_transmissao);
+  uart_oponente: uart port map (clock, reset, s_entrada_serial_oponente, s_habilita_uart_oponente, s_envia_dado_oponente, s_entrada_caractere_jogador, s_saida_serial_jogada, s_entrada_caractere_oponente, fim_recepcao_oponente, open, fim_transmissao);
   modem_interface: interface_modem port map (clock, reset, liga_modem, envia_dado, s_saida_serial_jogada, CTS, CD, RD, DTR, RTS, TD, s_envia_dado_oponente, s_recebe_dado_oponente, s_entrada_serial_oponente);
+  mapeia_uart: mapeador_uart port map (jogador_atual, recebe_dado_jogador, s_jogador_recebe_dado, s_oponente_recebe_dado);
 
   dado_paralelo <= s_entrada_caractere;
+  s_habilita_uart_oponente <= s_recebe_dado_oponente and s_oponente_recebe_dado;
   dep_recebe_dado_oponente <= s_recebe_dado_oponente;
 
 end exemplo;
