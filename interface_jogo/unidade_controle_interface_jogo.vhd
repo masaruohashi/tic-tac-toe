@@ -128,9 +128,19 @@ begin
         when inicial =>
           dep_estados <= "000";
         when imprime_oponente =>
-          dep_estados <= "010";
+          dep_estados <= "001";
         when recebe_jogador =>
+          dep_estados <= "010";
+        when envia_caractere =>
           dep_estados <= "011";
+        when imprime_jogador =>
+          dep_estados <= "100";
+        when recebe_oponente =>
+          dep_estados <= "101";
+        when imprime_final =>
+          dep_estados <= "110";
+        when final =>
+          dep_estados <= "111";
         when others =>
           null;
       end case;
