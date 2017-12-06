@@ -42,7 +42,7 @@ begin
   begin
     if sinal_fim = '1' then
       sinal_jogador_vencedor <= jogador_atual;
-    elsif jogadas_realizadas="111111111" then
+    elsif(jogadas_realizadas(8)='1' and jogadas_realizadas(7)='1' and jogadas_realizadas(6)='1' and jogadas_realizadas(5)='1' and jogadas_realizadas(4)='1' and jogadas_realizadas(3)='1' and jogadas_realizadas(2)='1' and jogadas_realizadas(1)='1' and jogadas_realizadas(0)='1')then
       sinal_empate <= '1';
     end if;
     jogador_vencedor <= sinal_jogador_vencedor;
